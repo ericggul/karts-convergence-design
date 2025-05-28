@@ -17,6 +17,7 @@ export const PROJECTS = [
          
         ],
         tags: ['React', 'Next.js', 'Tailwind CSS', 'TypeScript', 'Node.js', 'Express', 'MongoDB'],
+        shortDescription: 'Memory Tone은 사용자의 메모리를 향상시키기 위한 웹 애플리케이션입니다. 사용자는 메모리 향상을 위한 다양한 트레이닝 프로그램을 찾고 참여할 수 있습니다.',
     }
     ,
     {
@@ -35,6 +36,7 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1574263867128-a3d5c1b1deae?w=800&h=600&fit=crop',
         ],
         tags: ['React Native', 'Firebase', 'Chart.js', 'Redux', 'Expo', 'JavaScript'],
+        shortDescription: 'EcoTracker는 개인의 탄소 발자국을 추적하고 환경 친화적인 습관을 형성할 수 있도록 도와주는 모바일 애플리케이션입니다. 사용자는 일상 활동을 기록하고, 환경에 미치는 영향을 시각화하며, 지속 가능한 라이프스타일을 위한 개인화된 추천을 받을 수 있습니다.',
     },
     {
         id: 3,
@@ -52,6 +54,7 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
         ],
         tags: ['Vue.js', 'Socket.io', 'WebRTC', 'Node.js', 'PostgreSQL', 'Vuex'],
+        shortDescription: 'StudyBuddy는 학습자들이 함께 공부하고 서로 동기부여할 수 있는 온라인 스터디 플랫폼입니다. 실시간 화상 스터디룸, 학습 진도 추적, 포모도로 타이머, 그리고 학습 성취도 분석 기능을 제공합니다.',
     },
     {
         id: 4,
@@ -69,6 +72,7 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&h=600&fit=crop',
         ],
         tags: ['React', 'Google Maps API', 'Firebase', 'Material-UI', 'PWA', 'Geolocation'],
+        shortDescription: 'FoodieMap은 맛집을 발견하고 공유할 수 있는 소셜 맛집 지도 애플리케이션입니다. 사용자는 방문한 맛집을 기록하고, 리뷰와 사진을 공유하며, 친구들의 추천을 받아볼 수 있습니다. GPS 기반 위치 서비스와 AI 추천 시스템을 활용합니다.',
     },
     {
         id: 5,
@@ -86,6 +90,7 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=800&h=600&fit=crop',
         ],
         tags: ['Flutter', 'Dart', 'Audio Processing', 'SQLite', 'Provider', 'Animation'],
+        shortDescription: 'MindfulMoments는 명상과 마음챙김을 통해 정신 건강을 관리할 수 있는 웰니스 애플리케이션입니다. 가이드 명상, 호흡 운동, 수면 스토리, 그리고 개인화된 마음챙김 프로그램을 제공하여 사용자의 스트레스 관리와 정신적 웰빙을 지원합니다.',
     },
     {
         id: 6,
@@ -103,6 +108,7 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
         ],
         tags: ['Angular', 'TypeScript', 'Docker', 'Kubernetes', 'GraphQL', 'Redis'],
+        shortDescription: 'CodeReview Pro는 개발팀의 코드 리뷰 프로세스를 효율화하고 코드 품질을 향상시키는 협업 도구입니다. AI 기반 코드 분석, 자동화된 리뷰 워크플로우, 팀 성과 대시보드, 그리고 다양한 버전 관리 시스템과의 통합을 제공합니다.',
     },
     {
         id: 7,
@@ -120,6 +126,7 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop',
         ],
         tags: ['Svelte', 'SvelteKit', 'Stripe', 'Supabase', 'Tailwind CSS', 'Vite'],
+        shortDescription: 'ArtisanMarket은 수공예 작가들이 자신의 작품을 판매하고 고객과 직접 소통할 수 있는 온라인 마켓플레이스입니다. 작가 프로필, 작품 갤러리, 주문 관리, 결제 시스템, 그리고 커뮤니티 기능을 통해 창작자와 구매자를 연결합니다.',
     },
     {
         id: 8,
@@ -137,6 +144,7 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&h=600&fit=crop',
         ],
         tags: ['React Native', 'HealthKit', 'TensorFlow', 'AWS', 'GraphQL', 'Apollo'],
+        shortDescription: 'FitTracker 360은 종합적인 피트니스 추적과 개인 맞춤형 운동 계획을 제공하는 헬스케어 애플리케이션입니다. 웨어러블 기기 연동, 운동 기록 분석, AI 기반 개인 트레이너, 영양 관리, 그리고 소셜 챌린지 기능을 통해 사용자의 건강한 라이프스타일을 지원합니다.',
     },
     {
         id: 9,
@@ -154,5 +162,6 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop',
         ],
         tags: ['IoT', 'Raspberry Pi', 'MQTT', 'Python', 'React', 'WebSocket'],
+        shortDescription: 'SmartHome Hub는 다양한 IoT 기기들을 통합 관리하고 자동화할 수 있는 스마트홈 제어 시스템입니다. 조명, 온도, 보안, 엔터테인먼트 시스템을 하나의 플랫폼에서 제어하고, 사용자 패턴을 학습하여 자동화 시나리오를 제안합니다.',
     }
 ]

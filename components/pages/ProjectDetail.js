@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import { PROJECTS } from '../../utils/constant/dummy';
@@ -38,6 +38,7 @@ const Logo = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.typography.sizes.small};
+    display: none; // Hide logo text on mobile for detail page
   }
 `;
 
@@ -88,9 +89,13 @@ const ImageColumn = styled.div`
   position: relative;
   overflow: hidden;
   height: 100%;
+  background-color: ${({ theme }) => theme.colors.primary}; // Ensure background for transition
 `;
 
 const MainImage = styled.div`
+  position: absolute; // Allow stacking
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background-image: url(${({ $image }) => $image});
@@ -98,6 +103,7 @@ const MainImage = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity; // Hint for browser optimization
 `;
 
 const ProjectNumber = styled.div`
@@ -175,10 +181,16 @@ const ProjectInfoSection = styled.section`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.xl * 2.5}; // INCREASED general bottom margin
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
+    gap: ${({ theme }) => theme.spacing.lg};
+    margin-bottom: ${({ theme }) => theme.spacing.xl * 2}; // INCREASED tablet bottom margin
+  }
 `;
 
 const ProjectTitle = styled.h1`
-  font-size: 48px;
+  font-size: clamp(1.8rem, 4vw, 2.5rem); // DESKTOP: Reduced max and preferred
   font-weight: ${({ theme }) => theme.typography.weights.bold};
   line-height: 1.1;
   text-transform: uppercase;
@@ -186,12 +198,12 @@ const ProjectTitle = styled.h1`
   margin: 0;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: 32px;
+    font-size: 1.75rem; // Adjusted mobile size (28px)
   }
 `;
 
 const CreatorName = styled.p`
-  font-size: ${({ theme }) => theme.typography.sizes.base};
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem); // DESKTOP: Reduced max and preferred
   opacity: 0.7;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -209,8 +221,8 @@ const BrutalGrid = styled.div`
 const BrutalGridItemStyles = css`
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.secondary};
-  padding: ${({ theme }) => theme.spacing.md};
-  font-size: ${({ theme }) => theme.typography.sizes.small};
+  padding: ${({ theme }) => theme.spacing.lg}; // DESKTOP TAGS: Increased padding significantly
+  font-size: clamp(0.7rem, 1.3vw, 0.8rem); // DESKTOP TAGS: Reduced font, adjusted preferred
   font-weight: ${({ theme }) => theme.typography.weights.medium};
   text-align: center;
   text-transform: uppercase;
@@ -228,11 +240,46 @@ const BrutalGridItemStyles = css`
 `;
 
 const TagsContainer = styled(BrutalGrid)`
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); // DESKTOP: Wider min for tags, forcing fewer columns
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); // MEDIUM: Adjusted min for wider tags
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    display: none; // Hide brutal grid tags on mobile
+  }
+`;
+
+const MobileTagsText = styled.p`
+  display: none;
+  font-size: ${({ theme }) => theme.typography.sizes.small};
+  color: ${({ theme }) => theme.colors.secondary};
+  opacity: 0.7;
+  line-height: 1.5;
+  margin: ${({ theme }) => theme.spacing.md} 0;
+  word-wrap: break-word;
+  text-align: left; // Align to left, as per typical tag strings
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    display: block; // Show only on mobile
+  }
 `;
 
 const Tag = styled.div`
-  ${BrutalGridItemStyles}
+  ${BrutalGridItemStyles} 
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
+    font-size: clamp(0.7rem, 1.3vw, 0.8rem); // MEDIUM: Adjusted for wider tags
+    padding: ${({ theme }) => theme.spacing.md}; // MEDIUM: Padding adjusted
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.typography.sizes.xs || '0.75rem'}; // Mobile tags specifically
+    padding: ${({ theme }) => theme.spacing.sm};
+    text-align: center; // Ensure text is centered
+  }
 `;
 
 const ActionsContainer = styled(BrutalGrid)`
@@ -240,16 +287,22 @@ const ActionsContainer = styled(BrutalGrid)`
 `;
 
 const ActionButton = styled.a`
-  ${BrutalGridItemStyles}
-  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md}; // Larger padding for action buttons
-  font-size: ${({ theme }) => theme.typography.sizes.base};
+  ${BrutalGridItemStyles} 
+  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem); // DESKTOP: Reduced action button font size
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.typography.sizes.xs || '0.75rem'}; // Smaller font for mobile action buttons
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xs}; // Reduced padding for mobile
+  }
 `;
 
 const Description = styled.p`
-  font-size: ${({ theme }) => theme.typography.sizes.base};
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem); // DESKTOP: Reduced description font size
   line-height: 1.6;
   opacity: 0.8;
   margin: 0;
+  margin-bottom: 10vh; // Respecting user's direct change
 `;
 
 // OTHER PROJECTS
@@ -260,11 +313,12 @@ const OtherProjectsSection = styled.section`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     margin-top: ${({ theme }) => theme.spacing.xl};
+    border-top: none; // Remove border on mobile
   }
 `;
 
 const OtherProjectsTitle = styled.h2`
-  font-size: ${({ theme }) => theme.typography.sizes.base};
+  font-size: ${({ theme }) => theme.typography.sizes.base}; // Keep as is, or reduce if needed e.g. to 0.9rem
   font-weight: ${({ theme }) => theme.typography.weights.medium};
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -274,8 +328,13 @@ const OtherProjectsTitle = styled.h2`
 
 const OtherProjectsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr); // DESKTOP: Show 3 projects by default now
   gap: ${({ theme }) => theme.spacing.md};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
+    grid-template-columns: repeat(2, 1fr); // MEDIUM/TABLET: Show 2 projects
+    gap: ${({ theme }) => theme.spacing.sm};
+  }
   
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: repeat(2, 1fr);
@@ -316,6 +375,20 @@ const OtherProjectItem = styled.a`
     opacity: 0.5;
   }
 
+  /* Hide items beyond 3 for desktop (if showing 3 columns) */
+  @media (min-width: calc(${({ theme }) => theme.breakpoints.tablet} + 1px)) { // For screens wider than tablet
+    &:nth-child(n+4) {
+      display: none;
+    }
+  }
+
+  /* Hide items beyond 2 for tablet/medium (if showing 2 columns) */
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
+    &:nth-child(n+3) {
+        display: none;
+    }
+  }
+
   /* Hide 3rd and 4th items on mobile using CSS */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     &:nth-child(n+3) {
@@ -334,7 +407,7 @@ const OtherProjectInfo = styled.div`
 `;
 
 const OtherProjectName = styled.h3`
-  font-size: ${({ theme }) => theme.typography.sizes.small};
+  font-size: ${({ theme }) => theme.typography.sizes.small}; // Keep as is, or reduce e.g. to 0.8rem
   font-weight: ${({ theme }) => theme.typography.weights.medium};
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -342,7 +415,7 @@ const OtherProjectName = styled.h3`
 `;
 
 const OtherProjectCreator = styled.p`
-  font-size: ${({ theme }) => theme.typography.sizes.small};
+  font-size: ${({ theme }) => theme.typography.sizes.small}; // Keep as is, or reduce e.g. to 0.75rem
   opacity: 0.7;
   margin: 0;
 `;
@@ -350,54 +423,57 @@ const OtherProjectCreator = styled.p`
 const ProjectDetail = ({ project, projectNumber }) => {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Refs for the two image elements for crossfade
+  const imageRef1 = useRef(null);
+  const imageRef2 = useRef(null);
+  
+  // State to toggle which image is "on top" and controls its opacity
+  const [isImage1Active, setIsImage1Active] = useState(true);
+  const [activeImageSrc, setActiveImageSrc] = useState(project ? project.images[0] : null);
+  const [nextImageSrc, setNextImageSrc] = useState(project && project.images.length > 1 ? project.images[1] : null);
 
-  // New states for smooth image transition
-  const [imageToDisplay, setImageToDisplay] = useState(project ? project.images[0] : null);
-  const [mainImageOpacity, setMainImageOpacity] = useState(1);
-
-  // Effect to initialize/update imageToDisplay when project changes or on initial load
   useEffect(() => {
     if (project) {
-      // Initialize with the first image or current image if index somehow changed before project load
-      setImageToDisplay(project.images[currentImageIndex]);
-      setMainImageOpacity(1); // Ensure it's visible
+      setActiveImageSrc(project.images[currentImageIndex]);
+      setNextImageSrc(project.images[(currentImageIndex + 1) % project.images.length]);
     }
-  }, [project]); // Effect runs when project data is available
+  }, [project, currentImageIndex]);
 
   // Auto-advance currentImageIndex
   useEffect(() => {
-    if (!project || project.images.length <= 1) return; // No auto-advance if no project or single image
+    if (!project || project.images.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentImageIndex(prev =>
-        prev === project.images.length - 1 ? 0 : prev + 1
-      );
-    }, 5000); // Auto-advances every 5 seconds
+      setCurrentImageIndex(prev => (prev + 1) % project.images.length);
+    }, 5000);
 
     return () => clearInterval(interval);
-  }, [project]); // Depends only on project to setup/teardown interval
+  }, [project]);
 
-  // Handle visual transition when currentImageIndex changes
+  // Handle crossfade transition when currentImageIndex changes
   useEffect(() => {
-    if (!project || !imageToDisplay) return; // Guard against running before project/initial image is set
+    if (!project || project.images.length <= 1) return;
 
-    // If the target image is already displayed and fully visible, do nothing.
-    // This prevents an unnecessary fade effect on initial load after project is set.
-    if (project.images[currentImageIndex] === imageToDisplay && mainImageOpacity === 1) {
-      return;
+    // Update the src of the "next" image holder and toggle active image
+    if (isImage1Active) {
+      // imageRef1 is active (opacity 1), imageRef2 is next (opacity 0)
+      // Set imageRef2's source to the new image
+      setNextImageSrc(project.images[currentImageIndex]);
+    } else {
+      // imageRef2 is active (opacity 1), imageRef1 is next (opacity 0)
+      // Set imageRef1's source to the new image
+      setActiveImageSrc(project.images[currentImageIndex]);
     }
+    setIsImage1Active(!isImage1Active);
 
-    setMainImageOpacity(0); // Start fade out of the current image
-
-    const transitionDuration = 800; // Milliseconds, should match CSS opacity transition duration
-    
-    const timer = setTimeout(() => {
-      setImageToDisplay(project.images[currentImageIndex]); // Change the image source
-      setMainImageOpacity(1); // Start fade in of the new image
-    }, transitionDuration); // Wait for the fade-out to complete before changing source and fading in
-
-    return () => clearTimeout(timer); // Cleanup timeout if component unmounts or index changes again quickly
-  }, [currentImageIndex, project, imageToDisplay]); // Effect runs when currentImageIndex changes
+  }, [currentImageIndex]); // Triggered by auto-advance or manual click
+  
+  // Manual navigation handler
+  const handleThumbnailClick = (index) => {
+    if (index === currentImageIndex) return;
+    setCurrentImageIndex(index);
+  };
 
   if (!project) {
     // TODO: Add a proper loading state component
@@ -418,7 +494,17 @@ const ProjectDetail = ({ project, projectNumber }) => {
 
       <DetailGrid>
         <ImageColumn>
-          <MainImage $image={imageToDisplay} style={{ opacity: mainImageOpacity }} />
+          {/* Two image components for crossfading */}
+          <MainImage 
+            ref={imageRef1} 
+            $image={isImage1Active ? activeImageSrc : nextImageSrc} 
+            style={{ opacity: isImage1Active ? 1 : 0, zIndex: isImage1Active ? 2 : 1 }}
+          />
+          <MainImage 
+            ref={imageRef2} 
+            $image={!isImage1Active ? activeImageSrc : nextImageSrc} 
+            style={{ opacity: !isImage1Active ? 1 : 0, zIndex: !isImage1Active ? 2 : 1 }}
+          />
           <ProjectNumber>{projectNumber}</ProjectNumber>
           <ImageControls>
             {project.images.map((image, index) => (
@@ -426,7 +512,7 @@ const ProjectDetail = ({ project, projectNumber }) => {
                 key={index}
                 $image={image}
                 $active={index === currentImageIndex}
-                onClick={() => setCurrentImageIndex(index)}
+                onClick={() => handleThumbnailClick(index)} // Updated onClick handler
                 aria-label={`View image ${index + 1}`}
               />
             ))}
@@ -445,6 +531,9 @@ const ProjectDetail = ({ project, projectNumber }) => {
                 <Tag key={index}>{tag}</Tag>
               ))}
             </TagsContainer>
+            <MobileTagsText>
+              {project.tags.map(tag => `#${tag.replace(/\s+/g, '-')}`).join(' ')}
+            </MobileTagsText>
             
             <ActionsContainer>
               <ActionButton href={project.webLink} target="_blank" rel="noopener noreferrer">
