@@ -27,7 +27,10 @@ export const GridItem = styled.div`
   overflow: hidden;
   cursor: pointer;
   background-color: ${({ theme }) => theme.colors.accent};
-  
+
+
+
+
   /* Last item on mobile spans full width */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     &:nth-child(9) {
@@ -44,6 +47,8 @@ export const ProjectImage = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   transition: transform ${({ theme }) => theme.transitions.medium};
+
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, .2);
   
   ${GridItem}:hover & {
     transform: scale(1.02); /* More subtle scale effect */
@@ -57,10 +62,14 @@ export const ProjectNumber = styled.div`
   font-size: ${({ theme }) => theme.typography.sizes.xl}; /* Large font */
   font-weight: ${({ theme }) => theme.typography.weights.regular}; /* Subtle weight */
   color: ${({ theme }) => theme.colors.secondary};
+
   opacity: 0.7; /* Subtle opacity */
   z-index: ${({ theme }) => theme.zIndex.overlay};
   pointer-events: none;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Subtle shadow for readability */
+
+  mix-blend-mode: difference;
+  -webkit-mix-blend-mode: difference;
   
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.typography.sizes.large};

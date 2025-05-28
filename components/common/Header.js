@@ -7,7 +7,7 @@ export const HeaderContainer = styled.header`
   right: 0;
   height: 60px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 0 ${({ theme }) => theme.spacing.lg};
   background-color: transparent;
@@ -36,8 +36,7 @@ export const HeaderText = styled.h1`
 const Header = () => {
   return (
     <HeaderContainer>
-      <HeaderText>Convergence Design III</HeaderText>
-      <HeaderText>K-Arts</HeaderText>
+      <HeaderText>Convergence Design III | K-Arts</HeaderText>
     </HeaderContainer>
   );
 };
