@@ -15,8 +15,8 @@ export const GlobalStyles = createGlobalStyle`
   body {
     font-family: ${({ theme }) => theme.typography.primary};
     font-weight: ${({ theme }) => theme.typography.weights.regular};
-    background-color: ${({ theme }) => theme.colors.secondary};
-    color: ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.secondary};
     line-height: 1.4;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;

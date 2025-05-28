@@ -50,5 +50,9 @@ export const theme = {
     overlay: 10,
     modal: 100,
     tooltip: 1000
+  },
+  animations: {
+    default: '0.3s ease-out',
+    hover: '0.2s ease-in-out',
   }
 }; 

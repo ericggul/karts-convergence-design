@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { PROJECTS } from '../../utils/constant/dummy';
 
 // HEADER
@@ -34,7 +35,29 @@ const Logo = styled.div`
   }
 `;
 
-const GridContainer = styled.main`
+const gridContainerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.07,
+    },
+  },
+};
+
+const gridItemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    }
+  },
+};
+
+const GridContainer = styled(motion.main)`
   display: grid;
   grid-template-columns: repeat(3, 33.333vw);
   grid-template-rows: repeat(3, 33.333vh);
@@ -56,7 +79,7 @@ const GridContainer = styled.main`
   }
 `;
 
-const GridItem = styled.div`
+const GridItem = styled(motion.div)`
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -170,10 +193,15 @@ const Homepage = () => {
       <Header>
         <Logo>Convergence Design III | K-Arts</Logo>
       </Header>
-      <GridContainer>
+      <GridContainer
+        variants={gridContainerVariants}
+        initial="hidden"
+        animate="show"
+      >
         {PROJECTS.map((project, index) => (
           <GridItem
             key={project.id}
+            variants={gridItemVariants}
             onClick={() => handleProjectClick(project.id)}
             role="button"
             tabIndex={0}

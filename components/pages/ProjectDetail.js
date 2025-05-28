@@ -1,16 +1,33 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 import { PROJECTS } from '../../utils/constant/dummy';
 
-const PageWrapper = styled.div`
+// Animation variants
+const subtleFadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15, // Adjust stagger delay
+    },
+  },
+};
+
+const PageWrapper = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.secondary};
   min-height: 100vh;
 `;
 
 // HEADER
-const Header = styled.header`
+const AnimatedHeader = styled(motion.header)`
   position: fixed;
   top: 0;
   left: 0;
@@ -69,7 +86,7 @@ const HomeButton = styled.button`
 `;
 
 // MAIN LAYOUT GRID
-const DetailGrid = styled.main`
+const DetailGrid = styled(motion.main)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: calc(100vh - 60px);
@@ -85,7 +102,7 @@ const DetailGrid = styled.main`
 `;
 
 // LEFT COLUMN (IMAGE CAROUSEL)
-const ImageColumn = styled.div`
+const ImageColumn = styled(motion.div)`
   position: relative;
   overflow: hidden;
   height: 100%;
@@ -106,7 +123,7 @@ const MainImage = styled.div`
   will-change: opacity; // Hint for browser optimization
 `;
 
-const ProjectNumber = styled.div`
+const AnimatedProjectNumber = styled(motion.div)`
   position: absolute;
   top: ${({ theme }) => theme.spacing.xl};
   left: ${({ theme }) => theme.spacing.xl};
@@ -125,7 +142,7 @@ const ProjectNumber = styled.div`
   }
 `;
 
-const ImageControls = styled.div`
+const AnimatedImageControls = styled(motion.div)`
   position: absolute;
   bottom: ${({ theme }) => theme.spacing.lg};
   left: ${({ theme }) => theme.spacing.lg};
@@ -141,7 +158,7 @@ const ImageControls = styled.div`
   }
 `;
 
-const ThumbnailButton = styled.button`
+const AnimatedThumbnailButton = styled(motion.button)`
   flex: 1;
   height: 80px;
   background-image: url(${({ $image }) => $image});
@@ -164,7 +181,7 @@ const ThumbnailButton = styled.button`
 `;
 
 // RIGHT COLUMN (CONTENT)
-const ContentColumn = styled.div`
+const ContentColumn = styled(motion.div)`
   padding: ${({ theme }) => theme.spacing.xl};
   overflow-y: auto;
   display: flex;
@@ -176,7 +193,7 @@ const ContentColumn = styled.div`
   }
 `;
 
-const ProjectInfoSection = styled.section`
+const AnimatedProjectInfoSection = styled(motion.section)`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -189,7 +206,7 @@ const ProjectInfoSection = styled.section`
   }
 `;
 
-const ProjectTitle = styled.h1`
+const AnimatedProjectTitle = styled(motion.h1)`
   font-size: clamp(1.8rem, 4vw, 2.5rem); // DESKTOP: Reduced max and preferred
   font-weight: ${({ theme }) => theme.typography.weights.bold};
   line-height: 1.1;
@@ -202,7 +219,7 @@ const ProjectTitle = styled.h1`
   }
 `;
 
-const CreatorName = styled.p`
+const AnimatedCreatorName = styled(motion.p)`
   font-size: clamp(0.8rem, 1.8vw, 0.9rem); // DESKTOP: Reduced max and preferred
   opacity: 0.7;
   text-transform: uppercase;
@@ -239,20 +256,24 @@ const BrutalGridItemStyles = css`
   }
 `;
 
-const TagsContainer = styled(BrutalGrid)`
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); // DESKTOP: Wider min for tags, forcing fewer columns
+const AnimatedTagsContainer = styled(motion.div)`
+  display: grid;
+  gap: 1px;
+  background-color: ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   margin-bottom: ${({ theme }) => theme.spacing.xl};
   
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); // MEDIUM: Adjusted min for wider tags
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    display: none; // Hide brutal grid tags on mobile
+    display: none;
   }
 `;
 
-const MobileTagsText = styled.p`
+const AnimatedMobileTagsText = styled(motion.p)`
   display: none;
   font-size: ${({ theme }) => theme.typography.sizes.small};
   color: ${({ theme }) => theme.colors.secondary};
@@ -260,65 +281,69 @@ const MobileTagsText = styled.p`
   line-height: 1.5;
   margin: ${({ theme }) => theme.spacing.md} 0;
   word-wrap: break-word;
-  text-align: left; // Align to left, as per typical tag strings
+  text-align: left;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    display: block; // Show only on mobile
+    display: block;
   }
 `;
 
-const Tag = styled.div`
+const AnimatedTag = styled(motion.div)`
   ${BrutalGridItemStyles} 
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
-    font-size: clamp(0.7rem, 1.3vw, 0.8rem); // MEDIUM: Adjusted for wider tags
-    padding: ${({ theme }) => theme.spacing.md}; // MEDIUM: Padding adjusted
+    font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+    padding: ${({ theme }) => theme.spacing.md};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: ${({ theme }) => theme.typography.sizes.xs || '0.75rem'}; // Mobile tags specifically
+    font-size: ${({ theme }) => theme.typography.sizes.xs || '0.75rem'};
     padding: ${({ theme }) => theme.spacing.sm};
-    text-align: center; // Ensure text is centered
+    text-align: center;
   }
 `;
 
-const ActionsContainer = styled(BrutalGrid)`
-  grid-template-columns: 1fr; // Stack buttons vertically
+const AnimatedActionsContainer = styled(motion.div)`
+  display: grid;
+  gap: 1px;
+  background-color: ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  grid-template-columns: 1fr;
 `;
 
-const ActionButton = styled.a`
+const AnimatedActionButton = styled(motion.a)`
   ${BrutalGridItemStyles} 
   padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.md};
-  font-size: clamp(0.8rem, 1.8vw, 0.9rem); // DESKTOP: Reduced action button font size
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: ${({ theme }) => theme.typography.sizes.xs || '0.75rem'}; // Smaller font for mobile action buttons
-    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xs}; // Reduced padding for mobile
+    font-size: ${({ theme }) => theme.typography.sizes.xs || '0.75rem'};
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xs};
   }
 `;
 
-const Description = styled.p`
-  font-size: clamp(0.8rem, 1.8vw, 0.9rem); // DESKTOP: Reduced description font size
+const AnimatedDescription = styled(motion.p)`
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
   line-height: 1.6;
   opacity: 0.8;
   margin: 0;
-  margin-bottom: 10vh; // Respecting user's direct change
+  margin-bottom: 10vh;
 `;
 
 // OTHER PROJECTS
-const OtherProjectsSection = styled.section`
-  margin-top: auto; // Pushes to bottom on desktop
+const AnimatedOtherProjectsSection = styled(motion.section)`
+  margin-top: auto;
   padding-top: ${({ theme }) => theme.spacing.xl};
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     margin-top: ${({ theme }) => theme.spacing.xl};
-    border-top: none; // Remove border on mobile
+    border-top: none;
   }
 `;
 
-const OtherProjectsTitle = styled.h2`
-  font-size: ${({ theme }) => theme.typography.sizes.base}; // Keep as is, or reduce if needed e.g. to 0.9rem
+const AnimatedOtherProjectsTitle = styled(motion.h2)`
+  font-size: ${({ theme }) => theme.typography.sizes.base};
   font-weight: ${({ theme }) => theme.typography.weights.medium};
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -326,13 +351,13 @@ const OtherProjectsTitle = styled.h2`
   margin: 0 0 ${({ theme }) => theme.spacing.lg} 0;
 `;
 
-const OtherProjectsGrid = styled.div`
+const AnimatedOtherProjectsGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(3, 1fr); // DESKTOP: Show 3 projects by default now
+  grid-template-columns: repeat(3, 1fr);
   gap: ${({ theme }) => theme.spacing.md};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
-    grid-template-columns: repeat(2, 1fr); // MEDIUM/TABLET: Show 2 projects
+    grid-template-columns: repeat(2, 1fr);
     gap: ${({ theme }) => theme.spacing.sm};
   }
   
@@ -342,14 +367,14 @@ const OtherProjectsGrid = styled.div`
   }
 `;
 
-const OtherProjectItem = styled.a`
+const AnimatedOtherProjectItem = styled(motion.a)`
   position: relative;
-  aspect-ratio: 1 / 0.75; // Maintain aspect ratio
+  aspect-ratio: 1 / 0.75;
   overflow: hidden;
   display: block;
   text-decoration: none;
 
-  &::before { // Image container
+  &::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -363,7 +388,7 @@ const OtherProjectItem = styled.a`
     transform: scale(1.05);
   }
   
-  &::after { // Gradient overlay
+  &::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -375,21 +400,18 @@ const OtherProjectItem = styled.a`
     opacity: 0.5;
   }
 
-  /* Hide items beyond 3 for desktop (if showing 3 columns) */
-  @media (min-width: calc(${({ theme }) => theme.breakpoints.tablet} + 1px)) { // For screens wider than tablet
+  @media (min-width: calc(${({ theme }) => theme.breakpoints.tablet} + 1px)) {
     &:nth-child(n+4) {
       display: none;
     }
   }
 
-  /* Hide items beyond 2 for tablet/medium (if showing 2 columns) */
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) and (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
     &:nth-child(n+3) {
         display: none;
     }
   }
 
-  /* Hide 3rd and 4th items on mobile using CSS */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     &:nth-child(n+3) {
       display: none;
@@ -407,7 +429,7 @@ const OtherProjectInfo = styled.div`
 `;
 
 const OtherProjectName = styled.h3`
-  font-size: ${({ theme }) => theme.typography.sizes.small}; // Keep as is, or reduce e.g. to 0.8rem
+  font-size: ${({ theme }) => theme.typography.sizes.small};
   font-weight: ${({ theme }) => theme.typography.weights.medium};
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -415,7 +437,7 @@ const OtherProjectName = styled.h3`
 `;
 
 const OtherProjectCreator = styled.p`
-  font-size: ${({ theme }) => theme.typography.sizes.small}; // Keep as is, or reduce e.g. to 0.75rem
+  font-size: ${({ theme }) => theme.typography.sizes.small};
   opacity: 0.7;
   margin: 0;
 `;
@@ -486,14 +508,14 @@ const ProjectDetail = ({ project, projectNumber }) => {
   const otherProjects = PROJECTS.filter(p => p.id !== project.id).slice(0, 4);
 
   return (
-    <PageWrapper>
-      <Header>
+    <PageWrapper initial="hidden" animate="visible" variants={staggerContainer}>
+      <AnimatedHeader variants={subtleFadeInUp}>
         <Logo>Convergence Design III | K-Arts</Logo>
         <HomeButton onClick={handleBackClick}>Home</HomeButton>
-      </Header>
+      </AnimatedHeader>
 
-      <DetailGrid>
-        <ImageColumn>
+      <DetailGrid variants={staggerContainer}>
+        <ImageColumn variants={subtleFadeInUp}>
           {/* Two image components for crossfading */}
           <MainImage 
             ref={imageRef1} 
@@ -505,67 +527,69 @@ const ProjectDetail = ({ project, projectNumber }) => {
             $image={!isImage1Active ? activeImageSrc : nextImageSrc} 
             style={{ opacity: !isImage1Active ? 1 : 0, zIndex: !isImage1Active ? 2 : 1 }}
           />
-          <ProjectNumber>{projectNumber}</ProjectNumber>
-          <ImageControls>
+          <AnimatedProjectNumber variants={subtleFadeInUp}>{projectNumber}</AnimatedProjectNumber>
+          <AnimatedImageControls variants={staggerContainer}>
             {project.images.map((image, index) => (
-              <ThumbnailButton
+              <AnimatedThumbnailButton
                 key={index}
                 $image={image}
                 $active={index === currentImageIndex}
-                onClick={() => handleThumbnailClick(index)} // Updated onClick handler
+                onClick={() => handleThumbnailClick(index)}
                 aria-label={`View image ${index + 1}`}
+                variants={subtleFadeInUp}
               />
             ))}
-          </ImageControls>
+          </AnimatedImageControls>
         </ImageColumn>
 
-        <ContentColumn>
-          <ProjectInfoSection>
-            <div>
-              <ProjectTitle>{project.title}</ProjectTitle>
-              <CreatorName>{project.name}</CreatorName>
-            </div>
+        <ContentColumn variants={staggerContainer}>
+          <AnimatedProjectInfoSection variants={staggerContainer}>
+            <motion.div variants={subtleFadeInUp}>
+              <AnimatedProjectTitle variants={subtleFadeInUp}>{project.title}</AnimatedProjectTitle>
+              <AnimatedCreatorName variants={subtleFadeInUp}>{project.name}</AnimatedCreatorName>
+            </motion.div>
             
-            <TagsContainer>
+            <AnimatedTagsContainer variants={staggerContainer}>
               {project.tags.map((tag, index) => (
-                <Tag key={index}>{tag}</Tag>
+                <AnimatedTag key={index} variants={subtleFadeInUp}>{tag}</AnimatedTag>
               ))}
-            </TagsContainer>
-            <MobileTagsText>
+            </AnimatedTagsContainer>
+            <AnimatedMobileTagsText variants={subtleFadeInUp}>
               {project.tags.map(tag => `#${tag.replace(/\s+/g, '-')}`).join(' ')}
-            </MobileTagsText>
+            </AnimatedMobileTagsText>
             
-            <ActionsContainer>
-              <ActionButton href={project.webLink} target="_blank" rel="noopener noreferrer">
+            <AnimatedActionsContainer variants={staggerContainer}>
+              <AnimatedActionButton href={project.webLink} target="_blank" rel="noopener noreferrer" variants={subtleFadeInUp}>
                 Visit Website
-              </ActionButton>
-              <ActionButton href={project.githubLink} target="_blank" rel="noopener noreferrer">
+              </AnimatedActionButton>
+              <AnimatedActionButton href={project.githubLink} target="_blank" rel="noopener noreferrer" variants={subtleFadeInUp}>
                 GitHub Repository
-              </ActionButton>
-            </ActionsContainer>
+              </AnimatedActionButton>
+            </AnimatedActionsContainer>
             
-            <Description>{project.description}</Description>
-          </ProjectInfoSection>
+            <AnimatedDescription variants={subtleFadeInUp}>{project.description}</AnimatedDescription>
+          </AnimatedProjectInfoSection>
 
-          <OtherProjectsSection>
-            <OtherProjectsTitle>More Projects</OtherProjectsTitle>
-            <OtherProjectsGrid>
+          <AnimatedOtherProjectsSection variants={staggerContainer}>
+            <AnimatedOtherProjectsTitle variants={subtleFadeInUp}>More Projects</AnimatedOtherProjectsTitle>
+            <AnimatedOtherProjectsGrid variants={staggerContainer}>
               {otherProjects.map((op) => (
-                <OtherProjectItem
+                <AnimatedOtherProjectItem
                   key={op.id}
                   $image={op.images[0]}
                   href={`/project/${op.id}`}
                   onClick={(e) => { e.preventDefault(); handleOtherProjectClick(op.id); }}
                   aria-label={`View project ${op.title} by ${op.name}`}
+                  variants={subtleFadeInUp}
                 >
                   <OtherProjectInfo>
                     <OtherProjectName>{op.title}</OtherProjectName>
                     <OtherProjectCreator>{op.name}</OtherProjectCreator>
                   </OtherProjectInfo>
-                </OtherProjectItem>
+                </AnimatedOtherProjectItem>
               ))}
-            </OtherProjectsGrid>
-          </OtherProjectsSection>
+            </AnimatedOtherProjectsGrid>
+          </AnimatedOtherProjectsSection>
         </ContentColumn>
       </DetailGrid>
     </PageWrapper>

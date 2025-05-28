@@ -3,17 +3,11 @@ import Head from 'next/head';
 import { PROJECTS } from '../../utils/constant/dummy';
 import ProjectDetail from '../../components/pages/ProjectDetail';
 
-export default function ProjectPage() {
+export default function ProjectPage({ project, projectNumber }) {
   const router = useRouter();
-  const { id } = router.query;
-
-  // Find the project by id
-  const project = PROJECTS.find(p => p.id === parseInt(id));
-  const projectIndex = PROJECTS.findIndex(p => p.id === parseInt(id));
-  const projectNumber = projectIndex + 1;
 
   // Handle loading state
-  if (router.isFallback || !project) {
+  if (router.isFallback) {
     return (
       <div style={{ 
         display: 'flex', 
@@ -51,13 +45,15 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // Show 404 for non-existent projects
+    fallback: 'blocking',
   };
 }
 
 // Get static props for each project
 export async function getStaticProps({ params }) {
-  const project = PROJECTS.find(p => p.id === parseInt(params.id));
+  const projectId = parseInt(params.id);
+  const project = PROJECTS.find(p => p.id === projectId);
+  const projectIndex = PROJECTS.findIndex(p => p.id === projectId);
 
   if (!project) {
     return {
@@ -65,9 +61,13 @@ export async function getStaticProps({ params }) {
     };
   }
 
+  const projectNumber = projectIndex + 1;
+
   return {
     props: {
       project,
+      projectNumber,
     },
+    revalidate: 60,
   };
 } 
