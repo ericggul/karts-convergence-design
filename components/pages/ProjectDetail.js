@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { PROJECTS } from '../../utils/constant/dummy';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 // Animation variants
 const subtleFadeInUp = {
@@ -106,27 +107,46 @@ const ImageColumn = styled(motion.div)`
   position: relative;
   overflow: hidden;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.primary}; // Ensure background for transition
+  background-color: ${({ theme }) => theme.colors.primary};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    display: flex;
+    flex-direction: column;
+    opacity: 1; // Override for mobile - no fade-in animation
+    transform: translateY(0px); // Override for mobile - no slide-up animation
+  }
+`;
+
+// New wrapper for main images to control their height separately on mobile
+const MainImageWrapper = styled.div`
+  position: relative; // For absolute positioning of MainImage components within
+  width: 100%;
+  flex-grow: 1; // Allows this wrapper to take up available space minus controls
+  overflow: hidden; // If images are larger than this container by mistake
+  height: calc(100vh - 80px); // Default for mobile, overridden by flex-grow effectively if ImageColumn height is fixed
 `;
 
 const MainImage = styled.div`
-  position: absolute; // Allow stacking
+  position: absolute; // Stays absolute for crossfade
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100%; // Will be 100% of MainImageWrapper
   background-image: url(${({ $image }) => $image});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: opacity; // Hint for browser optimization
+  will-change: opacity;
+
+  /* No mobile-specific changes needed here now for position/height */
 `;
 
 const AnimatedProjectNumber = styled(motion.div)`
   position: absolute;
   top: ${({ theme }) => theme.spacing.xl};
   left: ${({ theme }) => theme.spacing.xl};
+  font-family: ${({ theme }) => theme.typography.mono}, monospace;
   font-size: 100px;
   font-weight: ${({ theme }) => theme.typography.weights.bold};
   color: ${({ theme }) => theme.colors.secondary};
@@ -139,11 +159,13 @@ const AnimatedProjectNumber = styled(motion.div)`
     font-size: 60px;
     top: ${({ theme }) => theme.spacing.md};
     left: ${({ theme }) => theme.spacing.md};
+    opacity: 1; // Override for mobile - no fade-in animation
+    transform: translateY(0px); // Override for mobile - no slide-up animation
   }
 `;
 
 const AnimatedImageControls = styled(motion.div)`
-  position: absolute;
+  position: absolute; // Default for desktop
   bottom: ${({ theme }) => theme.spacing.lg};
   left: ${({ theme }) => theme.spacing.lg};
   right: ${({ theme }) => theme.spacing.lg};
@@ -152,9 +174,18 @@ const AnimatedImageControls = styled(motion.div)`
   z-index: ${({ theme }) => theme.zIndex.overlay};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    bottom: ${({ theme }) => theme.spacing.md};
-    left: ${({ theme }) => theme.spacing.md};
-    right: ${({ theme }) => theme.spacing.md};
+    position: relative; 
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    height: 80px; 
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; 
+    opacity: 1 !important; // Force container opacity for mobile
+    transform: none !important; // Force no transform for mobile container
   }
 `;
 
@@ -167,16 +198,21 @@ const AnimatedThumbnailButton = styled(motion.button)`
   border: 2px solid ${({ $active, theme }) => 
     $active ? theme.colors.secondary : 'rgba(255,255,255,0.3)'};
   cursor: pointer;
-  transition: all 0.2s ease;
-  opacity: ${({ $active }) => $active ? 1 : 0.7};
+  transition: all 0.2s ease; // CSS transition for hover/active states
+  opacity: ${({ $active }) => $active ? 1 : 0.7}; // Base opacity based on active state
   
   &:hover {
     border-color: ${({ theme }) => theme.colors.secondary};
-    opacity: 1;
+    opacity: 1; // Hover opacity
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     height: 60px;
+    flex: 0 1 auto; 
+    min-width: 60px; 
+    // Opacity is now handled by the base rule and $active prop
+    // We only force the transform to prevent the slide-up from framer-motion
+    transform: none !important; 
   }
 `;
 
@@ -497,9 +533,14 @@ const ProjectDetail = ({ project, projectNumber }) => {
     setCurrentImageIndex(index);
   };
 
-  if (!project) {
-    // TODO: Add a proper loading state component
-    return <PageWrapper>Loading project...</PageWrapper>;
+  if (router.isFallback || !project) {
+    return (
+      <PageWrapper 
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} 
+      >
+        <LoadingSpinner />
+      </PageWrapper>
+    );
   }
 
   const handleBackClick = () => router.push('/');
@@ -516,17 +557,18 @@ const ProjectDetail = ({ project, projectNumber }) => {
 
       <DetailGrid variants={staggerContainer}>
         <ImageColumn variants={subtleFadeInUp}>
-          {/* Two image components for crossfading */}
-          <MainImage 
-            ref={imageRef1} 
-            $image={isImage1Active ? activeImageSrc : nextImageSrc} 
-            style={{ opacity: isImage1Active ? 1 : 0, zIndex: isImage1Active ? 2 : 1 }}
-          />
-          <MainImage 
-            ref={imageRef2} 
-            $image={!isImage1Active ? activeImageSrc : nextImageSrc} 
-            style={{ opacity: !isImage1Active ? 1 : 0, zIndex: !isImage1Active ? 2 : 1 }}
-          />
+          <MainImageWrapper>
+            <MainImage 
+              ref={imageRef1} 
+              $image={isImage1Active ? activeImageSrc : nextImageSrc} 
+              style={{ opacity: isImage1Active ? 1 : 0, zIndex: isImage1Active ? 2 : 1 }}
+            />
+            <MainImage 
+              ref={imageRef2} 
+              $image={!isImage1Active ? activeImageSrc : nextImageSrc} 
+              style={{ opacity: !isImage1Active ? 1 : 0, zIndex: !isImage1Active ? 2 : 1 }}
+            />
+          </MainImageWrapper>
           <AnimatedProjectNumber variants={subtleFadeInUp}>{projectNumber}</AnimatedProjectNumber>
           <AnimatedImageControls variants={staggerContainer}>
             {project.images.map((image, index) => (

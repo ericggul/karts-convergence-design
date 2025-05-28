@@ -108,6 +108,7 @@ const ProjectNumber = styled.div`
   position: absolute;
   top: ${({ theme }) => theme.spacing.lg};
   left: ${({ theme }) => theme.spacing.lg};
+  font-family: ${({ theme }) => theme.typography.mono}, monospace;
   font-size: 72px;
   font-weight: ${({ theme }) => theme.typography.weights.bold};
   color: ${({ theme }) => theme.colors.secondary};
@@ -214,7 +215,7 @@ const Homepage = () => {
             aria-label={`View project ${project.title} by ${project.name}`}
           >
             <ProjectImage $image={project.images[0]} />
-            <ProjectNumber>{(index + 1).toString()}</ProjectNumber>
+            <ProjectNumber>{(index + 1).toString().padStart(2, '0')}</ProjectNumber>
             <HoverOverlay>
               <ProjectInfo>
                 <ProjectTitle>{project.title}</ProjectTitle>

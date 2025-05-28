@@ -1,3 +1,13 @@
+import { JetBrains_Mono } from 'next/font/google';
+
+// Initialize JetBrains Mono font
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono'
+});
+
 export const theme = {
   colors: {
     primary: '#000000',
@@ -8,6 +18,8 @@ export const theme = {
   },
   typography: {
     primary: 'Arial, Helvetica, sans-serif',
+    mono: jetBrainsMono.style.fontFamily,
+    monoVariable: jetBrainsMono.variable,
     sizes: {
       small: '0.875rem',
       base: '1rem',

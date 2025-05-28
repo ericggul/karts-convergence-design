@@ -1,7 +1,16 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+// import { motion } from 'framer-motion'; // No longer needed here for loading state
 import { PROJECTS } from '../../utils/constant/dummy';
 import ProjectDetail from '../../components/pages/ProjectDetail';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+
+// Animation variants for the loading state - REMOVED
+// const loadingStateVariants = {
+//   hidden: { opacity: 0 },
+//   visible: { opacity: 1 },
+//   exit: { opacity: 0 },
+// };
 
 export default function ProjectPage({ project, projectNumber }) {
   const router = useRouter();
@@ -9,14 +18,20 @@ export default function ProjectPage({ project, projectNumber }) {
   // Handle loading state
   if (router.isFallback) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        height: '100vh',
-        fontSize: '1.2rem'
-      }}>
-        Loading...
+      <div // Changed back to plain div, or keep motion.div without variants if preferred for structure
+        style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          height: '100vh'
+        }}
+        // variants={loadingStateVariants} // REMOVED
+        // initial="hidden" // REMOVED
+        // animate="visible" // REMOVED
+        // exit="exit" // REMOVED
+        // transition={{ duration: 0.3 }} // REMOVED
+      >
+        <LoadingSpinner />
       </div>
     );
   }
@@ -61,7 +76,7 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  const projectNumber = projectIndex + 1;
+  const projectNumber = (projectIndex + 1).toString().padStart(2, '0');
 
   return {
     props: {

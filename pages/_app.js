@@ -30,6 +30,7 @@ export default function App({ Component, pageProps }) {
       <GlobalStyles />
       <AnimatePresence mode="wait">
         <motion.div
+          className={theme.typography.monoVariable}
           key={router.asPath}
           initial="initial"
           animate="in"
