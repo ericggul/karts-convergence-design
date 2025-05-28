@@ -112,8 +112,7 @@ const ImageColumn = styled(motion.div)`
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     display: flex;
     flex-direction: column;
-    opacity: 1; // Override for mobile - no fade-in animation
-    transform: translateY(0px); // Override for mobile - no slide-up animation
+    // The total height of ImageColumn on mobile is defined by DetailGrid (40vh)
   }
 `;
 
@@ -123,7 +122,7 @@ const MainImageWrapper = styled.div`
   width: 100%;
   flex-grow: 1; // Allows this wrapper to take up available space minus controls
   overflow: hidden; // If images are larger than this container by mistake
-  height: calc(100vh - 80px); // Default for mobile, overridden by flex-grow effectively if ImageColumn height is fixed
+  height: calc(100% - 80px); // Default for mobile, overridden by flex-grow effectively if ImageColumn height is fixed
 `;
 
 const MainImage = styled.div`
@@ -159,8 +158,7 @@ const AnimatedProjectNumber = styled(motion.div)`
     font-size: 60px;
     top: ${({ theme }) => theme.spacing.md};
     left: ${({ theme }) => theme.spacing.md};
-    opacity: 1; // Override for mobile - no fade-in animation
-    transform: translateY(0px); // Override for mobile - no slide-up animation
+    // Remains absolutely positioned to ImageColumn
   }
 `;
 
@@ -174,18 +172,16 @@ const AnimatedImageControls = styled(motion.div)`
   z-index: ${({ theme }) => theme.zIndex.overlay};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    position: relative; 
+    position: relative; // Becomes part of the flex flow in ImageColumn
     bottom: auto;
     left: auto;
     right: auto;
     width: 100%;
-    height: 80px; 
+    height: 80px; // Fixed height for the controls area
     padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
     justify-content: center;
     align-items: center;
-    flex-shrink: 0; 
-    opacity: 1 !important; // Force container opacity for mobile
-    transform: none !important; // Force no transform for mobile container
+    flex-shrink: 0; // Prevent controls from shrinking
   }
 `;
 
@@ -198,21 +194,18 @@ const AnimatedThumbnailButton = styled(motion.button)`
   border: 2px solid ${({ $active, theme }) => 
     $active ? theme.colors.secondary : 'rgba(255,255,255,0.3)'};
   cursor: pointer;
-  transition: all 0.2s ease; // CSS transition for hover/active states
-  opacity: ${({ $active }) => $active ? 1 : 0.7}; // Base opacity based on active state
+  transition: all 0.2s ease;
+  opacity: ${({ $active }) => $active ? 1 : 0.7};
   
   &:hover {
     border-color: ${({ theme }) => theme.colors.secondary};
-    opacity: 1; // Hover opacity
+    opacity: 1;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     height: 60px;
-    flex: 0 1 auto; 
-    min-width: 60px; 
-    // Opacity is now handled by the base rule and $active prop
-    // We only force the transform to prevent the slide-up from framer-motion
-    transform: none !important; 
+    flex: 0 1 auto; // Allow buttons to size based on content/count, up to a max
+    min-width: 60px; // Ensure buttons are at least somewhat square-ish
   }
 `;
 
@@ -537,6 +530,7 @@ const ProjectDetail = ({ project, projectNumber }) => {
     return (
       <PageWrapper 
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} 
+        initial={{ opacity: 0}} animate={{ opacity: 1}} exit={{ opacity: 0}}
       >
         <LoadingSpinner />
       </PageWrapper>
