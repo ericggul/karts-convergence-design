@@ -214,7 +214,7 @@ const Homepage = () => {
             aria-label={`View project ${project.title} by ${project.name}`}
           >
             <ProjectImage $image={project.images[0]} />
-            <ProjectNumber>{(index + 1).toString().padStart(2, '0')}</ProjectNumber>
+            <ProjectNumber>{(index + 1).toString()}</ProjectNumber>
             <HoverOverlay>
               <ProjectInfo>
                 <ProjectTitle>{project.title}</ProjectTitle>
