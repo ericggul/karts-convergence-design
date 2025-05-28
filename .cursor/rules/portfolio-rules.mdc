@@ -1,0 +1,219 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# K-ARTS CONVERGENCE DESIGN PORTFOLIO - CURSOR RULES
+
+## PROJECT OVERVIEW
+Portfolio application for Convergence Design students at K-Arts Interaction Design Department. This is a high-end, design-focused portfolio showcasing creative web design projects with minimalist, grid-based aesthetics inspired by brutalist and Swiss design principles.
+
+## TECHNOLOGY STACK
+- **Framework**: Next.js (already setup)
+- **Styling**: Styled-components (CSS-in-JS) - NO Tailwind CSS, NO module.css
+- **Language**: JavaScript (appreciate existing JS setup)
+- **Package Manager**: pnpm (based on package.json) -- STRICTLY PNPM NO YARN, NPM
+
+## DESIGN PHILOSOPHY
+- **Minimalist**: Clean, sophisticated, reduction to essential elements
+- **Grid-based**: Precise geometric layouts, mathematical proportions
+- **Brutalist influence**: Bold typography, stark contrasts, functional aesthetics
+- **Swiss design**: Systematic approach, excellent typography, grid systems
+- **State-of-the-art**: Reference contemporary award-winning portfolios (Awwwards SOTD level)
+
+## LAYOUT SPECIFICATIONS
+
+### MAIN PAGE (Homepage)
+**Desktop (>768px):**
+- 3x3 grid layout
+- Each grid cell: exactly `33.333vw x 33.333vh`
+- Grid gap: minimal (2-4px max)
+- Each cell: full project image background
+- Border: subtle white border (1-2px)
+- Project number: top-left corner with small margin (16px)
+- Typography: Clean, sans-serif, minimal
+- Hover state: overlay with project title + creator name
+- Hover animation: subtle fade or slide transition
+
+**Mobile (≤768px):**
+- 2-column grid layout
+- Maintain aspect ratios proportionally
+- Same interaction patterns adapted for touch
+
+### PROJECT DETAIL PAGE
+**Desktop (>768px):**
+- Two-column layout: each exactly `50vw`
+- **Left Column**: 
+  - Main project image spanning full height
+  - Small carousel at bottom (thumbnails)
+  - Project number overlay (top-left, similar to homepage)
+  - Image optimization for performance
+- **Right Column**:
+  - "← Back to home" navigation (top-right)
+  - Project title (large typography)
+  - Creator name
+  - Prominent "Visit Website" button
+  - Project description
+  - GitHub link
+  - Clean, systematic layout with proper spacing
+
+**Mobile (≤768px):**
+- Single column, stacked layout
+- Image first, then content
+- Maintain design hierarchy
+
+## STYLED-COMPONENTS PATTERNS
+
+### Theme Structure
+```javascript
+const theme = {
+  colors: {
+    primary: '#000000',
+    secondary: '#ffffff', 
+    accent: '#f5f5f5',
+    border: 'rgba(255,255,255,0.1)'
+  },
+  typography: {
+    primary: 'Arial, Helvetica, sans-serif', // Clean system fonts
+    sizes: {
+      small: '0.875rem',
+      base: '1rem', 
+      large: '1.5rem',
+      xl: '2rem'
+    }
+  },
+  spacing: {
+    xs: '4px',
+    sm: '8px', 
+    md: '16px',
+    lg: '24px',
+    xl: '32px'
+  },
+  grid: {
+    desktop: '33.333vw',
+    mobile: '50vw'
+  }
+}
+```
+
+### Component Structure
+- `<GridContainer>` - Main 3x3 grid wrapper
+- `<GridItem>` - Individual project cells
+- `<ProjectImage>` - Background image containers
+- `<ProjectNumber>` - Overlay numbers
+- `<HoverOverlay>` - Hover state information
+- `<DetailLayout>` - Two-column project page layout
+- `<ImageCarousel>` - Bottom thumbnail navigation
+
+## RESPONSIVE BREAKPOINTS
+```javascript
+const breakpoints = {
+  mobile: '768px',
+  tablet: '1024px', 
+  desktop: '1200px'
+}
+```
+
+## INTERACTION DESIGN
+
+### Hover States
+- Smooth transitions (200-300ms ease-out)
+- Subtle overlays, no dramatic animations
+- Information appears progressively
+- Maintain grid structure integrity
+
+### Navigation
+- Minimal, unobtrusive
+- Clear hierarchy
+- Smooth page transitions
+- Loading states for images
+
+### Performance
+- Image optimization (WebP, lazy loading)
+- Smooth 60fps animations
+- Fast page loads
+- Progressive enhancement
+
+## TYPOGRAPHY HIERARCHY
+- **Project Numbers**: Small, top-left positioned
+- **Project Titles**: Medium weight, clean sans-serif
+- **Creator Names**: Regular weight, secondary color
+- **Body Text**: Readable, well-spaced
+- **Navigation**: Minimal, functional
+
+## COLOR PALETTE
+- **Primary**: Pure black (#000000)
+- **Secondary**: Pure white (#ffffff)
+- **Accent**: Light gray (#f5f5f5)
+- **Borders**: Subtle white/gray
+- **Background**: Clean white or very light gray
+
+## IMAGE GUIDELINES
+- High-quality project screenshots
+- Consistent aspect ratios
+- WebP format for optimization
+- Lazy loading implementation
+- Proper alt text for accessibility
+
+## FOLDER STRUCTURE
+```
+/components
+  /common
+    - Grid.js
+    - Layout.js
+  /pages
+    - Homepage.js
+    - ProjectDetail.js
+/styles
+  - theme.js
+  - GlobalStyles.js
+/utils
+  - constants.js (existing dummy data)
+/pages
+  - index.js (homepage)
+  - project/[id].js (dynamic project pages)
+```
+
+## IMPLEMENTATION PRIORITIES
+1. Setup styled-components theme system
+2. Create responsive grid layout (homepage)
+3. Implement hover interactions
+4. Build project detail pages
+5. Add smooth page transitions
+6. Optimize images and performance
+7. Add accessibility features
+8. Test responsive behavior
+
+## DESIGN REFERENCES
+- Brutalist web design principles
+- Swiss graphic design grid systems
+- Awwwards SOTD portfolios (Federico Pian, Aristide)
+- Cargo Collective minimal portfolios
+- Contemporary art gallery websites
+
+## ACCESSIBILITY
+- Semantic HTML structure
+- Proper ARIA labels
+- Keyboard navigation support
+- Screen reader compatibility
+- Color contrast compliance
+- Focus indicators
+
+## PERFORMANCE TARGETS
+- First Contentful Paint: <1.5s
+- Largest Contentful Paint: <2.5s
+- Cumulative Layout Shift: <0.1
+- First Input Delay: <100ms
+
+## CODE QUALITY
+- ESLint configuration
+- Consistent component patterns
+- PropTypes or TypeScript for type safety
+- Clean, readable styled-components
+- Semantic HTML structure
+- Modern ES6+ JavaScript patterns
+
+Remember: This is for Korea's premier art university students. The design should be sophisticated, contemporary, and showcase the highest level of creative web design craftsmanship.
+
+
+DO NOT pnpm dev on your own, I'm testing on my own.
