@@ -1,12 +1,12 @@
 export const PROJECTS = [
     {
         id: 1,
-        title: 'Memory Tone',
-        name: '조수연',
-        webLink: 'https://memorytone.com',
-        githubLink: 'https://github.com/SooyounJo/mt.git',
-        description: 'Memory Tone은 사용자의 메모리를 향상시키기 위한 웹 애플리케이션입니다. 사용자는 메모리 향상을 위한 다양한 트레이닝 프로그램을 찾고 참여할 수 있습니다.',
-        longDescription: 'Memory Tone은 사용자의 메모리를 향상시키기 위한 웹 애플리케이션입니다. 사용자는 메모리 향상을 위한 다양한 트레이닝 프로그램을 찾고 참여할 수 있습니다.',
+        title: 'Kinetic Typography Explorer',
+        name: '이정민',
+        webLink: 'https://kinetictypo.design',
+        githubLink: 'https://github.com/JungminLee/kinetic-typography',
+        description: 'Kinetic Typography Explorer는 사용자가 다양한 타이포그래피 애니메이션을 실험하고 생성할 수 있는 인터랙티브 웹 플랫폼입니다.',
+        longDescription: 'Kinetic Typography Explorer는 사용자가 다양한 타이포그래피 애니메이션을 실험하고 생성할 수 있는 인터랙티브 웹 플랫폼입니다. 텍스트 입력, 폰트 선택, 애니메이션 파라미터 조정을 통해 독창적인 키네틱 타이포그래피를 만들고 공유할 수 있습니다. GSAP와 WebGL을 활용한 부드러운 애니메이션을 제공합니다.',
         images: [
             //get real-world existing dummy images, design web projects
             'https://images.unsplash.com/photo-1559028006-448665bd7c7f?w=800&h=600&fit=crop',
@@ -16,8 +16,8 @@ export const PROJECTS = [
             'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop',
          
         ],
-        tags: ['React', 'Next.js', 'Tailwind CSS', 'TypeScript', 'Node.js', 'Express', 'MongoDB'],
-        shortDescription: 'Memory Tone은 사용자의 메모리를 향상시키기 위한 웹 애플리케이션입니다. 사용자는 메모리 향상을 위한 다양한 트레이닝 프로그램을 찾고 참여할 수 있습니다.',
+        tags: ['JavaScript', 'GSAP', 'WebGL', 'Interactive Design', 'Typography', 'UI/UX'],
+        shortDescription: 'Kinetic Typography Explorer는 사용자가 다양한 타이포그래피 애니메이션을 실험하고 생성할 수 있는 인터랙티브 웹 플랫폼입니다.',
     }
     ,
     {
