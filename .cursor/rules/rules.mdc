@@ -1,0 +1,233 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# K-ARTS CONVERGENCE DESIGN ARCHIVE - CURSOR RULES
+
+## PROJECT OVERVIEW
+고품질 포트폴리오 아카이브 웹사이트 - 한국예술종합학교(K-Arts) 융합예술과 인터랙션 디자인과 학생들의 웹 디자인 프로젝트 아웃풋을 전시하는 미니멀하고 세련된 아카이브 플랫폼입니다.
+
+## TECHNOLOGY STACK
+- **Framework**: Next.js (이미 설정됨)
+- **Styling**: Styled-components (CSS-in-JS) - 절대 Tailwind CSS 사용 금지
+- **Language**: JavaScript (기존 JS 설정 유지)
+- **Package Manager**: pnpm (엄격히 pnpm만 사용, yarn/npm 금지)
+- **Animation**: Framer Motion
+- **Font**: JetBrains Mono (monospace), Arial/Helvetica (sans-serif)
+
+## DESIGN PHILOSOPHY
+- **Academic Excellence**: 국내 최고 예술 대학의 품격에 맞는 세련된 디자인
+- **Minimalist**: 정제된, 정교한, 본질적 요소만으로 구성
+- **Grid-based**: 정확한 기하학적 레이아웃, 수학적 비율
+- **Brutalist influence**: 대담한 타이포그래피, 뚜렷한 대비, 기능적 미학
+- **Swiss design**: 체계적 접근법, 뛰어난 타이포그래피, 그리드 시스템
+- **State-of-the-art**: Awwwards SOTD 수준의 현대적 포트폴리오 참조
+
+## LAYOUT SPECIFICATIONS
+
+### HOMEPAGE (메인 페이지)
+**Desktop (>768px):**
+- 3x3 그리드 레이아웃 (정확히 9개 프로젝트)
+- 각 그리드 셀: 정확히 `33.333vw x 33.333vh`
+- 그리드 갭: 최소 (2-4px max)
+- 각 셀: 프로젝트 이미지 풀 백그라운드
+- 보더: 미묘한 화이트 보더 (1-2px)
+- 프로젝트 번호: 좌상단 코너, 작은 마진 (16px)
+- 타이포그래피: 깔끔한 sans-serif, 미니멀
+- 호버 상태: 프로젝트 제목 + 작가명 오버레이
+- 호버 애니메이션: 미묘한 페이드 또는 슬라이드 전환
+
+**Mobile (≤768px):**
+- 2열 그리드 레이아웃
+- 비율 비례적으로 유지
+- 터치 인터랙션 패턴 적응
+
+### PROJECT DETAIL PAGE (프로젝트 상세 페이지)
+**Desktop (>768px):**
+- 투컬럼 레이아웃: 각각 정확히 `50vw`
+- **좌측 컬럼**: 
+  - 메인 프로젝트 이미지 (풀 높이)
+  - 하단 작은 캐러셀 (썸네일)
+  - 프로젝트 번호 오버레이 (좌상단, 홈페이지와 유사)
+  - 성능 최적화된 이미지
+- **우측 컬럼**:
+  - "← Back to home" 네비게이션 (우상단)
+  - 프로젝트 제목 (큰 타이포그래피)
+  - 작가명
+  - 눈에 띄는 "Visit Website" 버튼
+  - 프로젝트 설명
+  - GitHub 링크
+  - 깔끔하고 체계적인 레이아웃, 적절한 간격
+
+**Mobile (≤768px):**
+- 단일 컬럼, 스택 레이아웃
+- 이미지 먼저, 그 다음 콘텐츠
+- 디자인 계층 구조 유지
+
+## STYLED-COMPONENTS ARCHITECTURE
+
+### Theme System (styles/theme.js 기반)
+```javascript
+const theme = {
+  colors: {
+    primary: '#000000',    // 순수 블랙
+    secondary: '#ffffff',  // 순수 화이트
+    accent: '#f5f5f5',    // 라이트 그레이
+    border: 'rgba(255,255,255,0.2)', // 미묘한 보더
+    overlay: 'rgba(0,0,0,0.8)' // 오버레이
+  },
+  typography: {
+    primary: 'Arial, Helvetica, sans-serif',
+    mono: 'JetBrains Mono, monospace',
+    sizes: {
+      small: '0.875rem',
+      base: '1rem',
+      medium: '1.125rem', 
+      large: '1.5rem',
+      xl: '2rem',
+      xxl: '2.5rem'
+    },
+    weights: {
+      regular: 400,
+      medium: 500,
+      bold: 700
+    }
+  },
+  spacing: {
+    xs: '4px', sm: '8px', md: '16px',
+    lg: '24px', xl: '32px', xxl: '48px'
+  },
+  grid: {
+    desktop: '33.333vw',
+    mobile: '50vw',
+    gap: '3px'
+  },
+  breakpoints: {
+    mobile: '768px',
+    tablet: '1024px', 
+    desktop: '1200px'
+  }
+}
+```
+
+### Component Naming Convention
+- `<GridContainer>` - 메인 3x3 그리드 래퍼
+- `<GridItem>` - 개별 프로젝트 셀
+- `<ProjectImage>` - 백그라운드 이미지 컨테이너
+- `<ProjectNumber>` - 오버레이 번호
+- `<HoverOverlay>` - 호버 상태 정보
+- `<DetailLayout>` - 투컬럼 프로젝트 페이지 레이아웃
+- `<ImageCarousel>` - 하단 썸네일 네비게이션
+
+## RESPONSIVE DESIGN
+
+### Breakpoints
+- Mobile: ≤768px
+- Tablet: 769px - 1024px  
+- Desktop: >1024px
+
+### Mobile Optimizations
+- 2열 그리드로 변환
+- 터치 친화적 인터랙션
+- 적절한 타이포그래피 스케일링
+- 성능 최적화된 이미지 로딩
+
+## INTERACTION DESIGN
+
+### Hover States
+- 부드러운 전환 (200-300ms ease-out)
+- 미묘한 오버레이, 극적인 애니메이션 금지
+- 정보가 점진적으로 나타남
+- 그리드 구조 무결성 유지
+
+### Navigation & Transitions
+- 미니멀, 방해받지 않음
+- 명확한 계층 구조
+- 부드러운 페이지 전환 (Framer Motion 활용)
+- 이미지 로딩 상태
+
+### Performance Standards
+- 이미지 최적화 (WebP, lazy loading)
+- 60fps 부드러운 애니메이션
+- 빠른 페이지 로드
+- 점진적 향상
+
+## CONTENT MANAGEMENT
+
+### Project Data Structure (utils/constant/dummy.js)
+```javascript
+{
+  id: number,
+  title: string,           // 한국어/영어 프로젝트 제목
+  name: string,           // 한국어 학생 이름
+  webLink: string,        // 프로젝트 라이브 URL
+  githubLink: string,     // GitHub 저장소
+  description: string,    // 짧은 설명
+  longDescription: string, // 상세 설명
+  images: array,          // Unsplash 이미지 URLs (800x600)
+  tags: array,           // 기술 스택 태그
+  shortDescription: string // 호버 오버레이용
+}
+```
+
+### Image Guidelines
+- 고품질 프로젝트 스크린샷
+- 일관된 종횡비 (800x600 권장)
+- WebP 포맷 최적화
+- Lazy loading 구현
+- 접근성을 위한 적절한 alt 텍스트
+
+## TYPOGRAPHY HIERARCHY
+
+### 한국어/영어 혼합 지원
+- **프로젝트 번호**: JetBrains Mono, 좌상단 위치
+- **프로젝트 제목**: Medium weight, 깔끔한 sans-serif
+- **작가명**: Regular weight, 한국어 이름 지원
+- **본문 텍스트**: 가독성 있고, 잘 간격 설정됨
+- **네비게이션**: 미니멀, 기능적
+
+## COLOR SYSTEM
+- **Primary**: 순수 블랙 (#000000)
+- **Secondary**: 순수 화이트 (#ffffff)  
+- **Accent**: 라이트 그레이 (#f5f5f5)
+- **Borders**: 미묘한 화이트/그레이
+- **Background**: 깔끔한 화이트 또는 매우 라이트 그레이
+
+## ACCESSIBILITY STANDARDS
+- 시맨틱 HTML 구조
+- 적절한 ARIA 라벨
+- 키보드 내비게이션 지원
+- 스크린 리더 호환성
+- 색상 대비 준수
+- 포커스 인디케이터
+
+## PERFORMANCE TARGETS
+- First Contentful Paint: <1.5s
+- Largest Contentful Paint: <2.5s
+- Cumulative Layout Shift: <0.1
+- First Input Delay: <100ms
+
+## ACADEMIC CONTEXT CONSIDERATIONS
+- 한국 미술 교육의 최고 수준 반영
+- 국제적 포트폴리오 표준 준수
+- 학생 작품의 전문성 강조
+- 깔끔하고 학술적인 프레젠테이션
+- 창의적 웹 디자인 기교 쇼케이스
+
+## DEVELOPMENT WORKFLOW
+- ESLint 설정 준수
+- 일관된 컴포넌트 패턴
+- 깔끔하고 가독성 있는 styled-components
+- 시맨틱 HTML 구조
+- 현대적 ES6+ JavaScript 패턴
+
+## STRICT RULES
+1. **절대 pnpm 외 다른 패키지 매니저 사용 금지**
+2. **Tailwind CSS 절대 사용 금지 - styled-components만 사용**
+3. **기존 JavaScript 설정 유지 - TypeScript 변경 금지**
+4. **그리드 비율 엄격히 준수 (33.333vw x 33.333vh)**
+5. **한국어 콘텐츠 및 이름 지원 필수**
+6. **Awwwards 수준의 디자인 품질 유지**
+
+Remember: 이것은 한국 최고 예술 대학 학생들을 위한 것입니다. 디자인은 세련되고, 현대적이며, 최고 수준의 창의적 웹 디자인 기교를 보여줘야 합니다.
