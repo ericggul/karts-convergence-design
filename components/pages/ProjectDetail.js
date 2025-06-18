@@ -545,7 +545,7 @@ const ProjectDetail = ({ project, projectNumber }) => {
   return (
     <PageWrapper initial="hidden" animate="visible" variants={staggerContainer}>
       <AnimatedHeader variants={subtleFadeInUp}>
-        <Logo>Convergence Design III | K-Arts</Logo>
+        <Logo>Convergence Design | K-Arts</Logo>
         <HomeButton onClick={handleBackClick}>Home</HomeButton>
       </AnimatedHeader>
 

@@ -13,6 +13,7 @@ const Header = styled.header`
   background-color: ${({ theme }) => theme.colors.primary};
   border-bottom: 1px solid rgba(255,255,255,0.1);
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 ${({ theme }) => theme.spacing.xl};
   z-index: ${({ theme }) => theme.zIndex.overlay + 1}; // Ensure header is above grid
@@ -32,6 +33,32 @@ const Logo = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.typography.sizes.small}; // Smaller font for mobile header
+  }
+`;
+
+const AboutButton = styled.button`
+  background: none;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  color: ${({ theme }) => theme.colors.secondary};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.typography.sizes.small};
+  font-weight: ${({ theme }) => theme.typography.weights.regular};
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.secondary};
+    background-color: rgba(255,255,255,0.1);
+  }
+  
+  &::before {
+    content: 'ⓘ';
+    font-size: 16px;
   }
 `;
 
@@ -199,7 +226,8 @@ const Homepage = () => {
   return (
     <>
       <Header>
-        <Logo>Convergence Design III | K-Arts</Logo>
+        <Logo>Convergence Design | K-Arts</Logo>
+        <AboutButton onClick={handleAboutClick}>About</AboutButton>
       </Header>
       <GridContainer
         variants={gridContainerVariants}

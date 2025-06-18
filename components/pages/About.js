@@ -37,21 +37,27 @@ const Logo = styled.div`
 
 const BackButton = styled.button`
   background: none;
-  border: none;
+  border: 1px solid ${({ theme }) => theme.colors.border};
   color: ${({ theme }) => theme.colors.secondary};
-  font-size: ${({ theme }) => theme.typography.sizes.base};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.typography.sizes.small};
   font-weight: ${({ theme }) => theme.typography.weights.regular};
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
+  text-transform: uppercase;
   letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
   
   &:hover {
-    opacity: 1;
+    border-color: ${({ theme }) => theme.colors.secondary};
+    background-color: rgba(255,255,255,0.1);
   }
   
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: ${({ theme }) => theme.typography.sizes.small};
+  &::before {
+    content: '⌂';
+    font-size: 16px;
   }
 `;
 
@@ -205,6 +211,7 @@ const itemVariants = {
   },
 };
 
+
 const About = () => {
   const router = useRouter();
 
@@ -215,8 +222,8 @@ const About = () => {
   return (
     <>
       <Header>
-        <Logo>Convergence Design III | K-Arts</Logo>
-        <BackButton onClick={handleBackClick}>← Back to Portfolio</BackButton>
+        <Logo>Convergence Design | K-Arts</Logo>
+        <BackButton onClick={handleBackClick}>Home</BackButton>
       </Header>
       
       <MainContainer
@@ -232,9 +239,12 @@ const About = () => {
           </Title>
           
           <Subtitle variants={itemVariants}>
-            Next.js 기반 웹 프로젝트 아카이브
+            Creative Frontend Web Development Projects
+            <br />
+            by Design Department, K-Arts & Jeanyoon Choi
           </Subtitle>
           
+        
           <TextBlock variants={itemVariants}>
             <Paragraph>
               이 사이트는 <HighlightText>Next.js</HighlightText>와 <HighlightText>Styled-components</HighlightText>로 

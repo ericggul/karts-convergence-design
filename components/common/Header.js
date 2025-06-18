@@ -36,7 +36,7 @@ export const HeaderText = styled.h1`
 const Header = () => {
   return (
     <HeaderContainer>
-      <HeaderText>Convergence Design III | K-Arts</HeaderText>
+      <HeaderText>Convergence Design | K-Arts</HeaderText>
     </HeaderContainer>
   );
 };
