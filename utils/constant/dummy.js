@@ -1,3 +1,13 @@
+// About 정보 객체
+export const ABOUT_INFO = {
+    id: 0,
+    title: 'About',
+    name: 'K-Arts Convergence Design III',
+    type: 'about',
+    images: ['/about.png'],
+    shortDescription: '한예종 컨버젼스 디자인 III 과정 소개',
+};
+
 export const PROJECTS = [
     {
         id: 1,

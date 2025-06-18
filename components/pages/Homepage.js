@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { PROJECTS } from '../../utils/constant/dummy';
+import { PROJECTS, ABOUT_INFO } from '../../utils/constant/dummy';
 
 // HEADER
 const Header = styled.header`
@@ -189,6 +189,13 @@ const Homepage = () => {
     router.push(`/project/${projectId}`);
   };
 
+  const handleAboutClick = () => {
+    router.push('/about');
+  };
+
+  // About과 Projects를 합쳐서 하나의 배열로 만들기
+  const allItems = [ABOUT_INFO, ...PROJECTS];
+
   return (
     <>
       <Header>
@@ -199,27 +206,27 @@ const Homepage = () => {
         initial="hidden"
         animate="show"
       >
-        {PROJECTS.map((project, index) => (
+        {allItems.map((item, index) => (
           <GridItem
-            key={project.id}
+            key={item.id}
             variants={gridItemVariants}
-            onClick={() => handleProjectClick(project.id)}
+            onClick={() => item.type === 'about' ? handleAboutClick() : handleProjectClick(item.id)}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                handleProjectClick(project.id);
+                item.type === 'about' ? handleAboutClick() : handleProjectClick(item.id);
               }
             }}
-            aria-label={`View project ${project.title} by ${project.name}`}
+            aria-label={item.type === 'about' ? `View about page` : `View project ${item.title} by ${item.name}`}
           >
-            <ProjectImage $image={project.images[0]} />
-            <ProjectNumber>{(index + 1).toString().padStart(2, '0')}</ProjectNumber>
+            <ProjectImage $image={item.images[0]} />
+            <ProjectNumber>{index.toString().padStart(2, '0')}</ProjectNumber>
             <HoverOverlay>
               <ProjectInfo>
-                <ProjectTitle>{project.title}</ProjectTitle>
-                <ProjectCreator>{project.name}</ProjectCreator>
+                <ProjectTitle>{item.title}</ProjectTitle>
+                <ProjectCreator>{item.name}</ProjectCreator>
               </ProjectInfo>
             </HoverOverlay>
           </GridItem>
