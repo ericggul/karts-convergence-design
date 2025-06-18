@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://karts-convergence-design.vercel.app/sitemap.xml
+
+# K-Arts Convergence Design Portfolio Archive
+# 한국예술종합학교 융합예술과 포트폴리오 아카이브 

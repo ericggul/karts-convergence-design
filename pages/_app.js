@@ -1,6 +1,7 @@
 import { ThemeProvider } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { theme } from '../styles/theme';
 import { GlobalStyles } from '../styles/GlobalStyles';
 
