@@ -5,6 +5,23 @@ import { motion } from 'framer-motion';
 import { PROJECTS } from '../../utils/constant/dummy';
 import LoadingSpinner from '../common/LoadingSpinner';
 
+// Mobile detection utility
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+};
+
 // Animation variants
 const subtleFadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -53,10 +70,15 @@ const Logo = styled.div`
   font-weight: ${({ theme }) => theme.typography.weights.regular};
   opacity: 0.8;
   letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.typography.sizes.small};
-    display: none; // Hide logo text on mobile for detail page
   }
 `;
 
@@ -102,7 +124,7 @@ const DetailGrid = styled(motion.main)`
   }
 `;
 
-// LEFT COLUMN (IMAGE CAROUSEL)
+// LEFT COLUMN (IMAGE git)
 const ImageColumn = styled(motion.div)`
   position: relative;
   overflow: hidden;
@@ -126,7 +148,7 @@ const MainImageWrapper = styled.div`
 `;
 
 const MainImage = styled.div`
-  position: absolute; // Stays absolute for crossfade
+  position: absolute; // Stays absolute for crossfade on desktop
   top: 0;
   left: 0;
   width: 100%;
@@ -135,10 +157,16 @@ const MainImage = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity;
 
-  /* No mobile-specific changes needed here now for position/height */
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    position: relative; // Simple positioning for mobile
+    transition: none; // Remove transitions on mobile
+  }
+
+  @media (min-width: calc(${({ theme }) => theme.breakpoints.mobile} + 1px)) {
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 `;
 
 const AnimatedProjectNumber = styled(motion.div)`
@@ -474,20 +502,33 @@ const OtherProjectCreator = styled.p`
 const ProjectDetail = ({ project, projectNumber }) => {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const isMobile = useIsMobile();
   
-  // Refs for the two image elements for crossfade
+  // Refs for the two image elements for crossfade (desktop only)
   const imageRef1 = useRef(null);
   const imageRef2 = useRef(null);
   
-  // State to toggle which image is "on top" and controls its opacity
+  // State to toggle which image is "on top" and controls its opacity (desktop only)
   const [isImage1Active, setIsImage1Active] = useState(true);
   const [activeImageSrc, setActiveImageSrc] = useState(project ? project.images[0] : null);
   const [nextImageSrc, setNextImageSrc] = useState(project && project.images.length > 1 ? project.images[1] : null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     if (project) {
       setActiveImageSrc(project.images[currentImageIndex]);
-      setNextImageSrc(project.images[(currentImageIndex + 1) % project.images.length]);
+      if (!isMobile) {
+        setNextImageSrc(project.images[(currentImageIndex + 1) % project.images.length]);
+      }
+    }
+  }, [project, currentImageIndex, isMobile]);
+
+  // Preload images to prevent blinking
+  useEffect(() => {
+    if (project && project.images.length > 0) {
+      const img = new Image();
+      img.onload = () => setImageLoaded(true);
+      img.src = project.images[currentImageIndex];
     }
   }, [project, currentImageIndex]);
 
@@ -502,9 +543,9 @@ const ProjectDetail = ({ project, projectNumber }) => {
     return () => clearInterval(interval);
   }, [project]);
 
-  // Handle crossfade transition when currentImageIndex changes
+  // Handle crossfade transition when currentImageIndex changes (desktop only)
   useEffect(() => {
-    if (!project || project.images.length <= 1) return;
+    if (!project || project.images.length <= 1 || isMobile) return;
 
     // Update the src of the "next" image holder and toggle active image
     if (isImage1Active) {
@@ -518,12 +559,27 @@ const ProjectDetail = ({ project, projectNumber }) => {
     }
     setIsImage1Active(!isImage1Active);
 
-  }, [currentImageIndex]); // Triggered by auto-advance or manual click
+  }, [currentImageIndex, isMobile]); // Triggered by auto-advance or manual click
   
   // Manual navigation handler
   const handleThumbnailClick = (index) => {
     if (index === currentImageIndex) return;
     setCurrentImageIndex(index);
+  };
+
+  // Handle website button click with mobile detection
+  const handleWebsiteClick = (e, url) => {
+    if (isMobile) {
+      e.preventDefault();
+      alert('모바일에서는 웹사이트 열람이 불가합니다.\n데스크탑에서 확인해주세요.');
+      return false;
+    }
+    // Desktop: normal link behavior
+  };
+
+  // Handle logo click to go home
+  const handleLogoClick = () => {
+    router.push('/');
   };
 
   if (router.isFallback || !project) {
@@ -545,23 +601,37 @@ const ProjectDetail = ({ project, projectNumber }) => {
   return (
     <PageWrapper initial="hidden" animate="visible" variants={staggerContainer}>
       <AnimatedHeader variants={subtleFadeInUp}>
-        <Logo>Convergence Design | K-Arts</Logo>
+        <Logo onClick={handleLogoClick}>Convergence Design | K-Arts</Logo>
         <HomeButton onClick={handleBackClick}>Home</HomeButton>
       </AnimatedHeader>
 
       <DetailGrid variants={staggerContainer}>
         <ImageColumn variants={subtleFadeInUp}>
           <MainImageWrapper>
-            <MainImage 
-              ref={imageRef1} 
-              $image={isImage1Active ? activeImageSrc : nextImageSrc} 
-              style={{ opacity: isImage1Active ? 1 : 0, zIndex: isImage1Active ? 2 : 1 }}
-            />
-            <MainImage 
-              ref={imageRef2} 
-              $image={!isImage1Active ? activeImageSrc : nextImageSrc} 
-              style={{ opacity: !isImage1Active ? 1 : 0, zIndex: !isImage1Active ? 2 : 1 }}
-            />
+            {isMobile ? (
+              // Simple single image for mobile with loading check
+              <MainImage 
+                $image={project.images[currentImageIndex]} 
+                style={{ 
+                  opacity: imageLoaded ? 1 : 0, 
+                  zIndex: 1 
+                }}
+              />
+            ) : (
+              // Crossfade images for desktop
+              <>
+                <MainImage 
+                  ref={imageRef1} 
+                  $image={isImage1Active ? activeImageSrc : nextImageSrc} 
+                  style={{ opacity: isImage1Active ? 1 : 0, zIndex: isImage1Active ? 2 : 1 }}
+                />
+                <MainImage 
+                  ref={imageRef2} 
+                  $image={!isImage1Active ? activeImageSrc : nextImageSrc} 
+                  style={{ opacity: !isImage1Active ? 1 : 0, zIndex: !isImage1Active ? 2 : 1 }}
+                />
+              </>
+            )}
           </MainImageWrapper>
           <AnimatedProjectNumber variants={subtleFadeInUp}>{projectNumber}</AnimatedProjectNumber>
           <AnimatedImageControls variants={staggerContainer}>
@@ -595,7 +665,13 @@ const ProjectDetail = ({ project, projectNumber }) => {
             </AnimatedMobileTagsText>
             
             <AnimatedActionsContainer variants={staggerContainer}>
-              <AnimatedActionButton href={project.webLink} target="_blank" rel="noopener noreferrer" variants={subtleFadeInUp}>
+              <AnimatedActionButton 
+                href={project.webLink} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                variants={subtleFadeInUp}
+                onClick={(e) => handleWebsiteClick(e, project.webLink)}
+              >
                 Visit Website
               </AnimatedActionButton>
               <AnimatedActionButton href={project.githubLink} target="_blank" rel="noopener noreferrer" variants={subtleFadeInUp}>

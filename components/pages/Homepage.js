@@ -30,6 +30,12 @@ const Logo = styled.div`
   color: ${({ theme }) => theme.colors.secondary};
   opacity: 0.8;
   letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.typography.sizes.small}; // Smaller font for mobile header
@@ -220,13 +226,22 @@ const Homepage = () => {
     router.push('/about');
   };
 
+  const handleLogoClick = () => {
+    router.push('/about');
+  };
+
   // About과 Projects를 합쳐서 하나의 배열로 만들기
   const allItems = [ABOUT_INFO, ...PROJECTS];
 
   return (
-    <>
+    <motion.div
+      initial="hidden"
+      animate="show"
+      variants={gridContainerVariants}
+      style={{ backgroundColor: '#000000' }}
+    >
       <Header>
-        <Logo>Convergence Design | K-Arts</Logo>
+        <Logo onClick={handleLogoClick}>Convergence Design | K-Arts</Logo>
         <AboutButton onClick={handleAboutClick}>About</AboutButton>
       </Header>
       <GridContainer
@@ -260,7 +275,7 @@ const Homepage = () => {
           </GridItem>
         ))}
       </GridContainer>
-    </>
+    </motion.div>
   );
 };
 

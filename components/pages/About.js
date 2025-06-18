@@ -29,6 +29,12 @@ const Logo = styled.div`
   color: ${({ theme }) => theme.colors.secondary};
   opacity: 0.8;
   letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.typography.sizes.small};
@@ -226,8 +232,6 @@ const itemVariants = {
   },
 };
 
-
-
 const About = () => {
   const router = useRouter();
 
@@ -235,10 +239,14 @@ const About = () => {
     router.push('/');
   };
 
+  const handleLogoClick = () => {
+    router.push('/');
+  };
+
   return (
     <>
       <Header>
-        <Logo>Convergence Design | K-Arts</Logo>
+        <Logo onClick={handleLogoClick}>Convergence Design | K-Arts</Logo>
         <BackButton onClick={handleBackClick}>Home</BackButton>
       </Header>
       
