@@ -36,10 +36,10 @@ export default class MyDocument extends Document {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           
           {/* Primary Meta Tags */}
-          <title>한예종 컨버젼스 디자인 | K-Arts Convergence Design 3</title>
-          <meta name="title" content="한예종 컨버젼스 디자인 | K-Arts Convergence Design 3" />
+          <title>한예종 컨버전스 디자인 | K-Arts Convergence Design 3</title>
+          <meta name="title" content="한예종 컨버전스 디자인 | K-Arts Convergence Design 3" />
           <meta name="description" content="한국예술종합학교(Korea National University of Arts) 인터랙션디자인과 컨버전스 디자인 3 과목 Next.js 기반 웹 코딩 프로젝트 과제 모음. 교수자: 최정윤 (Jeanyoon Choi)" />
-          <meta name="keywords" content="한예종, K-Arts, 한국예술종합학교, Korea National University of Arts, 융합예술, 컨버젼스 디자인, Convergence Design, 인터랙션 디자인, 포트폴리오, 웹 디자인, 최정윤, Jeanyoon Choi" />
+          <meta name="keywords" content="한예종, K-Arts, 한국예술종합학교, Korea National University of Arts, 융합예술, 컨버전스 디자인, Convergence Design, 인터랙션 디자인, 포트폴리오, 웹 디자인, 최정윤, Jeanyoon Choi" />
           <meta name="author" content="K-Arts Convergence Design Students" />
           <meta name="robots" content="index, follow" />
           <meta name="language" content="Korean" />
@@ -47,7 +47,7 @@ export default class MyDocument extends Document {
           {/* Open Graph / Facebook */}
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://karts-convergence-design.vercel.app/" />
-          <meta property="og:title" content="한예종 컨버젼스 디자인 | K-Arts Convergence Design 3" />
+          <meta property="og:title" content="한예종 컨버전스 디자인 | K-Arts Convergence Design 3" />
           <meta property="og:description" content="한국예술종합학교(Korea National University of Arts) 인터랙션디자인과 컨버전스 디자인 3 과목 Next.js 기반 웹 코딩 프로젝트 과제 모음. 교수자: 최정윤 (Jeanyoon Choi)" />
           <meta property="og:image" content="https://karts-convergence-design.vercel.app/og-image.jpg" />
           <meta property="og:site_name" content="K-Arts Convergence Design" />
@@ -57,7 +57,7 @@ export default class MyDocument extends Document {
           {/* Twitter */}
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://karts-convergence-design.vercel.app/" />
-          <meta property="twitter:title" content="한예종 컨버젼스 디자인 | K-Arts Convergence Design 3" />
+          <meta property="twitter:title" content="한예종 컨버전스 디자인 | K-Arts Convergence Design 3" />
           <meta property="twitter:description" content="한국예술종합학교(Korea National University of Arts) 인터랙션디자인과 컨버전스 디자인 3 과목 Next.js 기반 웹 코딩 프로젝트 과제 모음. 교수자: 최정윤 (Jeanyoon Choi)" />
           <meta property="twitter:image" content="https://karts-convergence-design.vercel.app/og-image.jpg" />
           
