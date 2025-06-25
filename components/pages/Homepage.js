@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { PROJECTS, ABOUT_INFO } from '../../utils/constant/dummy';
 
 // HEADER
@@ -94,12 +95,14 @@ const GridContainer = styled(motion.main)`
   display: grid;
   grid-template-columns: repeat(3, 33.333vw);
   grid-template-rows: repeat(3, 33.333vh);
+  grid-auto-rows: 33.333vh; // Additional rows for overflow items
   width: 100vw;
   height: 100vh;
   gap: 2px;
   background-color: ${({ theme }) => theme.colors.primary};
   padding-top: 60px; // Make space for fixed header
   box-sizing: border-box;
+  overflow-y: auto; // Enable scrolling if content exceeds viewport
   
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: repeat(2, 1fr); // Use 1fr for more robust 2-column layout
@@ -215,8 +218,27 @@ const ProjectCreator = styled.p`
   }
 `;
 
+// Fisher-Yates shuffle algorithm
+const shuffleArray = (array) => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 const Homepage = () => {
   const router = useRouter();
+  const [displayItems, setDisplayItems] = useState([]);
+
+  useEffect(() => {
+    // Shuffle projects and show all for both desktop and mobile
+    const shuffledProjects = shuffleArray(PROJECTS);
+    
+    // Show About + all projects (total 10 items)
+    setDisplayItems([ABOUT_INFO, ...shuffledProjects]);
+  }, []);
 
   const handleProjectClick = (projectId) => {
     router.push(`/project/${projectId}`);
@@ -229,9 +251,6 @@ const Homepage = () => {
   const handleLogoClick = () => {
     router.push('/about');
   };
-
-  // About과 Projects를 합쳐서 하나의 배열로 만들기
-  const allItems = [ABOUT_INFO, ...PROJECTS];
 
   return (
     <motion.div
@@ -249,9 +268,9 @@ const Homepage = () => {
         initial="hidden"
         animate="show"
       >
-        {allItems.map((item, index) => (
+        {displayItems.map((item, index) => (
           <GridItem
-            key={item.id}
+            key={`${item.id}-${index}`} // Use both id and index to ensure uniqueness after shuffle
             variants={gridItemVariants}
             onClick={() => item.type === 'about' ? handleAboutClick() : handleProjectClick(item.id)}
             role="button"

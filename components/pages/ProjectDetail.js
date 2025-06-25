@@ -679,7 +679,7 @@ const ProjectDetail = ({ project, projectNumber }) => {
               </AnimatedActionButton>
             </AnimatedActionsContainer>
             
-            <AnimatedDescription variants={subtleFadeInUp}>{project.description}</AnimatedDescription>
+            <AnimatedDescription variants={subtleFadeInUp}>{project.longDescription}</AnimatedDescription>
           </AnimatedProjectInfoSection>
 
           <AnimatedOtherProjectsSection variants={staggerContainer}>
