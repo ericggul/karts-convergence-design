@@ -17,6 +17,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/quartzyamii/3disland.git',
         description: '물건이 너무 낡고 오래되어 버려야 하지만, 버리지 못하는 \'나\'를 위해 제작된 추억의 섬입니다.',
         longDescription: '물건이 너무 낡고 오래되어 버려야 하지만, 버리지 못하는 \'나\'를 위해 이 웹사이트를 제작하게 되었다. 이 추억의 섬은 나, \'민진\'이라는 사람의 삶 속에서 만난 추억이 깃든 중요한 물건들을 보관하고 있는 장소이다. 섬 안에 놓인 각각의 물건을 클릭하면 사물 속에 담긴 민진이와의 사물 간의 이야기를 들여다볼 수 있다.',
+        longEnglishDescription: 'This website was created for those who cannot let go of objects that are too old and worn to keep, yet too precious to discard. Memory Island serves as a sanctuary for meaningful objects that hold memories from Minjin\'s life journey. By clicking on each object placed on the island, visitors can explore the intimate stories and relationships between Minjin and these cherished possessions, revealing the emotional connections that transform ordinary things into vessels of memory.',
         images: [
             '/images/김민진/1.png',
             '/images/김민진/2.png',
@@ -34,6 +35,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/parkgain00/4.177',
         description: '생년월일시를 입력하면 음양오행을 바탕으로 두 사람의 사주 궁합을 정밀하게 분석해주는 웹사이트입니다.',
         longDescription: '\'연담\'은 생년월일시를 입력하면 음양오행을 바탕으로 두 사람의 사주 궁합을 정밀하게 분석해주는 웹사이트입니다. 붉은 실로 인연을 잇듯, 책장을 넘기며 감성적인 궁합 결과를 경험할 수 있습니다.',
+        longEnglishDescription: 'Yeondam is a sophisticated compatibility analysis website that examines the harmony between two people based on traditional Korean astrology (Saju) and the Five Elements theory. By entering birth dates and times, users can discover their romantic compatibility through an immersive, book-like interface. Like connecting destinies with red thread, the experience unfolds through elegant page turns, creating an emotional journey through compatibility results that blend ancient wisdom with contemporary digital design.',
         images: [
             '/images/박가인/1.png',
             '/images/박가인/2.png',
@@ -51,6 +53,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/mrhonge/karts-agoraphobia',
         description: '2025년 5월 한국예술종합학교 연극원 공연 <아고라포비아>의 웹 프로그램북 사이트입니다.',
         longDescription: '2025년 5월 한국예술종합학교 연극원 공연 <아고라포비아>의 웹 프로그램북 사이트이다. 관객에게는 작품에 관한 밀도 있는 정보를 제공하고, 창작진에게는 창작 과정을 기록할 수 있는 공간을 마련하고자 했다. 시놉시스와 작품 설명 등 관객의 이해를 돕는 콘텐츠와 각 창작진이 자신의 의도와 고민을 직접 서술한 창작 노트를 담았다. 원 페이지 사이트로, 섹션 이미지를 클릭하면 모달이 노출되며 각각의 콘텐츠를 확인할 수 있다.',
+        longEnglishDescription: 'This is the digital program book website for the theatrical production "Agoraphobia" by Korea National University of Arts Theatre School, premiering in May 2025. The platform serves dual purposes: providing audiences with comprehensive production insights while offering creators a space to document their artistic process. The site features detailed synopsis, production notes, and personal creative journals where each team member shares their intentions and artistic struggles. Designed as a single-page application, users can explore rich content through modal interactions triggered by clicking sectional images, creating an immersive journey through the production\'s creative landscape.',
         images: [
             '/images/Agoraphobia/1.png',
             '/images/Agoraphobia/2.png',
@@ -69,6 +72,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/mrhonge/make-subtitle',
         description: '공연예술의 접근성 향상을 위해 제작한 자동 자막 슬라이드 생성 웹사이트입니다.',
         longDescription: '공연예술의 접근성 향상을 위해 제작한 자동 자막 슬라이드 생성 웹사이트이다. 정해진 형식에 맞게 음성 정보가 포함된 대본을 제작한 후 사이트에 대본을 첨부하면 자동으로 슬라이드를 생성한다. 사용자는 각 슬라이드의 텍스트를 편집할 수 있으며 슬라이드추가 및 삭제도 가능하다. 또한 프레젠테이션 기능을 통해 실시간으로 자막 송출이 가능하도록 구현하였다.',
+        longEnglishDescription: 'PlayCaption is an innovative accessibility tool designed to enhance the inclusivity of performing arts through automated subtitle slide generation. The platform accepts specially formatted scripts containing audio cues and timing information, automatically converting them into synchronized subtitle presentations. Users can edit individual slide text, add or remove slides, and utilize the built-in presentation mode for real-time subtitle broadcasting during live performances. This tool bridges the gap between performing arts and hearing-impaired audiences, democratizing access to cultural experiences through seamless subtitle integration.',
         images: [
             '/images/Playcaption/1.png',
             '/images/Playcaption/2.png',
@@ -87,6 +91,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/JiyuShin/pibit.git',
         description: '개인의 습관을 개선해주는 인터랙티브한 습관 개선 모듈을 제안하는 웹사이트입니다.',
         longDescription: '근 미래엔 사물이 사람의 필요에 따라 수동적으로 반응하는 것이 아닌 능동적으로 사람과 대화하며 하나의 새로운 인격체로 마치 살아있는 존재처럼 사용자와 소통할 수 있다면 재밌을 것 같다는 생각을 시작으로 개인의 습관을 개선해주거나 미래에 예측되는 습관들을 인터렉티브한 과정을 거쳐 자신과 가장 잘 통하고 적합한 습관 개선 모듈을 제안하고 간단한 대화를 해볼 수 있는 피빗을 주제로 한 웹사이트입니다.',
+        longEnglishDescription: 'PIBIT explores a near-future scenario where objects transcend passive responsiveness to human needs, instead actively communicating as living entities with distinct personalities. This interactive website proposes personalized habit improvement modules through an engaging dialogue system. Starting from the concept that future objects could communicate like sentient beings, PIBIT guides users through interactive processes to discover habit improvement solutions perfectly tailored to their personality and lifestyle. The platform facilitates meaningful conversations between users and their personalized habit modules, creating a unique blend of behavioral psychology and speculative design for personal development.',
         images: [
             '/images/신지유/1.jpg',
             '/images/신지유/2.jpg',
@@ -106,6 +111,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/ahnownj/final',
         description: 'Vanishing Points는 시각적 소실점을 주제로 한 실험적 인터랙션 프로젝트입니다.',
         longDescription: 'Vanishing Points는 시각적 소실점을 주제로 한 실험적 인터랙션 프로젝트입니다. 공간과 시간의 소실점을 탐구하며, 사용자의 인터랙션에 따라 변화하는 시각적 경험을 제공합니다. 기하학적 형태와 원근법의 실험을 통해 새로운 시각적 언어를 모색합니다.',
+        longEnglishDescription: 'Vanishing Points is an experimental interaction project that explores the concept of visual vanishing points in both spatial and temporal dimensions. Through user interactions, the project creates dynamic visual experiences that challenge conventional perspective principles. By experimenting with geometric forms and perspective laws, this work seeks to establish a new visual language that questions how we perceive depth, distance, and the convergence of parallel lines in digital space. The project invites users to become active participants in reshaping perspective itself.',
         images: [
             'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=600&fit=crop',
             'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=800&h=600&fit=crop',
@@ -122,6 +128,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/hj0325/new-final.git',
         description: '어린아이가 자신의 감정을 이해하고 표현하는 방법을 놀이처럼 배우는 웹사이트입니다.',
         longDescription: 'MOMO는 어린아이가 자신의 감정을 이해하고 표현하는 방법을 놀이처럼 배우는 웹사이트이다. 무게를 잴 수 없는 감정을 아이 스스로 가상의 무게를 부여하고 저울로 재어보면서 생각하고 사고하는 방법을 배울 수 있으며, 동시에 자신의 감정을 다루는 방식을 배운다.',
+        longEnglishDescription: 'MOMO is an innovative educational platform designed to help children understand and express their emotions through playful interaction. The website transforms abstract emotional concepts into tangible experiences by allowing children to assign virtual weights to their feelings and measure them on digital scales. Through this metaphorical weighing process, children develop critical thinking skills while learning healthy emotional regulation strategies. The platform gamifies emotional intelligence development, making the complex process of understanding feelings accessible and engaging for young minds.',
         images: [
             '/images/이현지/1.png',
             '/images/이현지/2.png',
@@ -138,6 +145,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/joyfromwt/w6',
         description: '2190년, 미래의 큐레이터들이 우리 시대의 일상 물건들을 바라보는 박물관 아카이브 프로젝트입니다.',
         longDescription: '"2190년, 미래의 큐레이터들은 우리 시대의 일상 물건들을 어떻게 바라볼까요? 우리의 현재는 그들에게 먼 과거의 유물이 됩니다. 이 박물관에서는 현재(2025)에서 22세기 너머까지 여행하며, 일상 물건들이 어떻게 변화하고 새로운 의미를 갖게 되는지 목격할 수 있습니다. 현재의 평범한 것들이 미래의 자산이 되는 박물관 아카이브 프로젝트입니다."',
+        longEnglishDescription: '"In the year 2190, how will future curators perceive the everyday objects of our era? Our present becomes their distant archaeological past. This museum archive project invites visitors to journey from 2025 to beyond the 22nd century, witnessing how ordinary objects transform and acquire new meanings across time. Through speculative curation, we explore how today\'s mundane items become tomorrow\'s cultural artifacts. The project challenges our perception of value and significance, demonstrating how time itself becomes the ultimate curator of human civilization."',
         images: [
             '/images/장예지/1.png',
             '/images/장예지/2.png',
@@ -153,6 +161,7 @@ export const PROJECTS = [
         githubLink: 'https://github.com/SooyounJo/mt.git',
         description: '여행의 기억을 추억할 수 있는, 그 나라와 분위기에 어울리는 음악을 추천해주는 3D 사이트입니다.',
         longDescription: 'memory tone은 여행의 기억을 추억할 수 있는, 그 나라, 분위기, 장소와 잘 어울리는 음악을 추천해주는 사이트로, 단지 단어가 아니라 키워드가 대입되어있는 각각의 이미지 요소를 선택하여 결과를 얻어내는 감성적인 음악 경험을 위한 3d 사이트이다.',
+        longEnglishDescription: 'Memory Tone is an immersive 3D platform that curates musical experiences based on travel memories and atmospheric associations. Rather than relying on simple text keywords, the site employs visual storytelling through carefully selected image elements that users can interact with to discover personalized music recommendations. Each selection triggers algorithmic matching between countries, moods, places, and corresponding soundscapes, creating an emotional journey through music that resonates with specific travel memories. The platform transforms nostalgic recollection into an active, sensory exploration of sound and place.',
         images: [
             '/images/조수연/1.png',
             '/images/조수연/2.png',

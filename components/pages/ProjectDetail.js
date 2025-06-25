@@ -384,7 +384,46 @@ const AnimatedDescription = styled(motion.p)`
   line-height: 1.6;
   opacity: 0.8;
   margin: 0;
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+`;
+
+const AnimatedEnglishDescription = styled(motion.p)`
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  line-height: 1.6;
+  opacity: 0.7;
+  margin: 0;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.typography.sizes.small};
+    margin-bottom: ${({ theme }) => theme.spacing.md};
+  }
+`;
+
+const AnimatedSimpleLink = styled(motion.a)`
+  display: inline-block;
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  color: ${({ theme }) => theme.colors.secondary};
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  opacity: 0.8;
+  margin: 0;
   margin-bottom: 10vh;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    opacity: 1;
+    text-decoration-thickness: 2px;
+  }
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.typography.sizes.small};
+    margin-bottom: ${({ theme }) => theme.spacing.xl * 2};
+  }
 `;
 
 // OTHER PROJECTS
@@ -680,6 +719,18 @@ const ProjectDetail = ({ project, projectNumber }) => {
             </AnimatedActionsContainer>
             
             <AnimatedDescription variants={subtleFadeInUp}>{project.longDescription}</AnimatedDescription>
+            
+            <AnimatedEnglishDescription variants={subtleFadeInUp}>{project.longEnglishDescription}</AnimatedEnglishDescription>
+            
+            <AnimatedSimpleLink 
+              href={project.webLink} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              variants={subtleFadeInUp}
+              onClick={(e) => handleWebsiteClick(e, project.webLink)}
+            >
+              Visit Website ↗
+            </AnimatedSimpleLink>
           </AnimatedProjectInfoSection>
 
           <AnimatedOtherProjectsSection variants={staggerContainer}>
