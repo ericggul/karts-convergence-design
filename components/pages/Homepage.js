@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { PROJECTS, ABOUT_INFO } from '../../utils/constant/dummy';
 
 // HEADER
@@ -126,6 +126,14 @@ const GridItem = styled(motion.div)`
   }
 `;
 
+const ProjectImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.primary}; // Black background during loading
+  position: relative;
+  overflow: hidden;
+`;
+
 const ProjectImage = styled.div`
   width: 100%;
   height: 100%;
@@ -133,7 +141,8 @@ const ProjectImage = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: transform 0.4s ease;
+  transition: all 0.4s ease;
+  opacity: ${({ $loaded }) => $loaded ? 1 : 0};
   
   ${GridItem}:hover & {
     transform: scale(1.1);
@@ -228,6 +237,87 @@ const shuffleArray = (array) => {
   return shuffled;
 };
 
+// Image preloading hook
+const useImagePreloader = (imageSrc) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    if (!imageSrc) return;
+    
+    setIsLoaded(false);
+    setHasError(false);
+    
+    const img = new Image();
+    
+    const handleLoad = () => {
+      setIsLoaded(true);
+      setHasError(false);
+    };
+    
+    const handleError = () => {
+      setHasError(true);
+      setIsLoaded(false);
+    };
+    
+    img.addEventListener('load', handleLoad);
+    img.addEventListener('error', handleError);
+    
+    img.src = imageSrc;
+    
+    // If image is already cached, it might load synchronously
+    if (img.complete) {
+      handleLoad();
+    }
+    
+    return () => {
+      img.removeEventListener('load', handleLoad);
+      img.removeEventListener('error', handleError);
+    };
+  }, [imageSrc]);
+
+  return { isLoaded, hasError };
+};
+
+// Individual project item component with image loading
+const ProjectItem = ({ item, index, onProjectClick, onAboutClick }) => {
+  const imageSrc = item.images && item.images[0] ? item.images[0] : null;
+  const { isLoaded } = useImagePreloader(imageSrc);
+
+  const handleClick = useCallback(() => {
+    item.type === 'about' ? onAboutClick() : onProjectClick(item.id);
+  }, [item, onAboutClick, onProjectClick]);
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick();
+    }
+  }, [handleClick]);
+
+  return (
+    <GridItem
+      variants={gridItemVariants}
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      aria-label={item.type === 'about' ? `View about page` : `View project ${item.title} by ${item.name}`}
+    >
+      <ProjectImageContainer>
+        <ProjectImage $image={imageSrc} $loaded={isLoaded} />
+      </ProjectImageContainer>
+      <ProjectNumber>{index.toString().padStart(2, '0')}</ProjectNumber>
+      <HoverOverlay>
+        <ProjectInfo>
+          <ProjectTitle>{item.title}</ProjectTitle>
+          <ProjectCreator>{item.name}</ProjectCreator>
+        </ProjectInfo>
+      </HoverOverlay>
+    </GridItem>
+  );
+};
+
 // Session-persistent shuffle order
 const getSessionShuffledProjects = () => {
   if (typeof window === 'undefined') return PROJECTS; // SSR safety
@@ -265,17 +355,17 @@ const Homepage = () => {
     setDisplayItems([ABOUT_INFO, ...shuffledProjects]);
   }, []);
 
-  const handleProjectClick = (projectId) => {
+  const handleProjectClick = useCallback((projectId) => {
     router.push(`/project/${projectId}`);
-  };
+  }, [router]);
 
-  const handleAboutClick = () => {
+  const handleAboutClick = useCallback(() => {
     router.push('/about');
-  };
+  }, [router]);
 
-  const handleLogoClick = () => {
+  const handleLogoClick = useCallback(() => {
     router.push('/about');
-  };
+  }, [router]);
 
   return (
     <motion.div
@@ -294,29 +384,13 @@ const Homepage = () => {
         animate="show"
       >
         {displayItems.map((item, index) => (
-          <GridItem
+          <ProjectItem
             key={`${item.id}-${index}`} // Use both id and index to ensure uniqueness after shuffle
-            variants={gridItemVariants}
-            onClick={() => item.type === 'about' ? handleAboutClick() : handleProjectClick(item.id)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                item.type === 'about' ? handleAboutClick() : handleProjectClick(item.id);
-              }
-            }}
-            aria-label={item.type === 'about' ? `View about page` : `View project ${item.title} by ${item.name}`}
-          >
-            <ProjectImage $image={item.images[0]} />
-            <ProjectNumber>{index.toString().padStart(2, '0')}</ProjectNumber>
-            <HoverOverlay>
-              <ProjectInfo>
-                <ProjectTitle>{item.title}</ProjectTitle>
-                <ProjectCreator>{item.name}</ProjectCreator>
-              </ProjectInfo>
-            </HoverOverlay>
-          </GridItem>
+            item={item}
+            index={index}
+            onProjectClick={handleProjectClick}
+            onAboutClick={handleAboutClick}
+          />
         ))}
       </GridContainer>
     </motion.div>
