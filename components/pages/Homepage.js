@@ -228,13 +228,38 @@ const shuffleArray = (array) => {
   return shuffled;
 };
 
+// Session-persistent shuffle order
+const getSessionShuffledProjects = () => {
+  if (typeof window === 'undefined') return PROJECTS; // SSR safety
+  
+  const sessionKey = 'shuffledProjectOrder';
+  const stored = sessionStorage.getItem(sessionKey);
+  
+  if (stored) {
+    try {
+      const shuffledIds = JSON.parse(stored);
+      // Reconstruct projects array in the stored order
+      return shuffledIds.map(id => PROJECTS.find(p => p.id === id)).filter(Boolean);
+    } catch (e) {
+      console.warn('Failed to parse stored shuffle order:', e);
+    }
+  }
+  
+  // Create new shuffle and store it
+  const shuffled = shuffleArray(PROJECTS);
+  const shuffledIds = shuffled.map(p => p.id);
+  sessionStorage.setItem(sessionKey, JSON.stringify(shuffledIds));
+  
+  return shuffled;
+};
+
 const Homepage = () => {
   const router = useRouter();
   const [displayItems, setDisplayItems] = useState([]);
 
   useEffect(() => {
-    // Shuffle projects and show all for both desktop and mobile
-    const shuffledProjects = shuffleArray(PROJECTS);
+    // Get session-persistent shuffled projects
+    const shuffledProjects = getSessionShuffledProjects();
     
     // Show About + all projects (total 10 items)
     setDisplayItems([ABOUT_INFO, ...shuffledProjects]);

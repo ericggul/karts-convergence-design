@@ -538,9 +538,36 @@ const OtherProjectCreator = styled.p`
   margin: 0;
 `;
 
-const ProjectDetail = ({ project, projectNumber }) => {
+// Get session-consistent project number
+const getSessionProjectNumber = (projectId) => {
+  if (typeof window === 'undefined') return '01'; // SSR fallback
+  
+  const sessionKey = 'shuffledProjectOrder';
+  const stored = sessionStorage.getItem(sessionKey);
+  
+  if (stored) {
+    try {
+      const shuffledIds = JSON.parse(stored);
+      const shuffledIndex = shuffledIds.findIndex(id => id === projectId);
+      if (shuffledIndex !== -1) {
+        // Add 1 because About is at index 0, so projects start from index 1
+        return (shuffledIndex + 1).toString().padStart(2, '0');
+      }
+    } catch (e) {
+      console.warn('Failed to parse stored shuffle order:', e);
+    }
+  }
+  
+  // Fallback to original project order
+  const { PROJECTS } = require('../../utils/constant/dummy');
+  const originalIndex = PROJECTS.findIndex(p => p.id === projectId);
+  return (originalIndex + 1).toString().padStart(2, '0'); // +1 for About at index 0
+};
+
+const ProjectDetail = ({ project, projectNumber: staticProjectNumber }) => {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [sessionProjectNumber, setSessionProjectNumber] = useState(staticProjectNumber || '01');
   const isMobile = useIsMobile();
   
   // Refs for the two image elements for crossfade (desktop only)
@@ -552,6 +579,14 @@ const ProjectDetail = ({ project, projectNumber }) => {
   const [activeImageSrc, setActiveImageSrc] = useState(project ? project.images[0] : null);
   const [nextImageSrc, setNextImageSrc] = useState(project && project.images.length > 1 ? project.images[1] : null);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Calculate session-consistent project number
+  useEffect(() => {
+    if (project) {
+      const correctNumber = getSessionProjectNumber(project.id);
+      setSessionProjectNumber(correctNumber);
+    }
+  }, [project]);
 
   useEffect(() => {
     if (project) {
@@ -672,7 +707,7 @@ const ProjectDetail = ({ project, projectNumber }) => {
               </>
             )}
           </MainImageWrapper>
-          <AnimatedProjectNumber variants={subtleFadeInUp}>{projectNumber}</AnimatedProjectNumber>
+          <AnimatedProjectNumber variants={subtleFadeInUp}>{sessionProjectNumber}</AnimatedProjectNumber>
           <AnimatedImageControls variants={staggerContainer}>
             {project.images.map((image, index) => (
               <AnimatedThumbnailButton

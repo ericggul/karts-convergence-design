@@ -109,22 +109,30 @@ export const PROJECTS = [
         name: '안은재',
         webLink: 'https://vanishingpoints.vercel.app/main',
         githubLink: 'https://github.com/ahnownj/final',
-        description: 'Vanishing Points는 시각적 소실점을 주제로 한 실험적 인터랙션 프로젝트입니다.',
-        longDescription: 'Vanishing Points는 시각적 소실점을 주제로 한 실험적 인터랙션 프로젝트입니다. 공간과 시간의 소실점을 탐구하며, 사용자의 인터랙션에 따라 변화하는 시각적 경험을 제공합니다. 기하학적 형태와 원근법의 실험을 통해 새로운 시각적 언어를 모색합니다.',
-        longEnglishDescription: 'Vanishing Points is an experimental interaction project that explores the concept of visual vanishing points in both spatial and temporal dimensions. Through user interactions, the project creates dynamic visual experiences that challenge conventional perspective principles. By experimenting with geometric forms and perspective laws, this work seeks to establish a new visual language that questions how we perceive depth, distance, and the convergence of parallel lines in digital space. The project invites users to become active participants in reshaping perspective itself.',
+        description: '같은 태양을 바라보며 존재하는 우리의 연결점을 구글 스트리트뷰를 통해 탐구하는 웹사이트입니다.',
+        longDescription: '이 회전하는 지구 어딘가에서 누군가가 나와 같은 석양을 바라보고 있다는 것, 우리가 만날 일도 없고 삶이 교차하지도 않을지라도 그것은 이상한 위안이 된다. Vanishing Points는 구글 스트리트뷰의 눈을 통해 먼 풍경의 이미지들을 마주하는 공간이다. 우리 각자가 서로 다른 좌표 안에서 살아가지만, 태양의 움직임과 그것을 바라보는 우리의 행위는 여전히 공유된다는 깨달음에서 출발했다. 종종 그 파노라마 조각들 속에서 주체는 사라져 있다. 프레임 안에는 아무도 없고, 그림자나 글리치, 누군가 서 있었던 자리의 소실점만이 남아 있다. 이 이미지들은 특별한 상실감과 현존감을 불러일으키며, 마치 화면 너머에서 무언가가 우리를 바라보고 있는 듯한 느낌을 준다.',
+        longEnglishDescription: `It's a strange comfort to know that, somewhere on this spinning Earth, someone else is watching the same sun setting—though we may never meet, and though our lives never intersect.
+
+Vanishing Points is a space for encountering images of distant landscapes through the eyes of Google's Street View. It emerged from the realization that, while we each live within separate coordinates, the sun's movement—and our act of watching it—remains shared. Often, in those panoramic fragments, the subject is missing. There is no one in the frame—only a shadow, a glitch, a vanishing point where someone once stood. These images evoke a peculiar sense of loss and presence, as though something is watching back from behind the screen.
+
+The project is a temporary meditation on memory, absence, and the illusion of proximity. The globe, once known to us through paper maps and childhood globes, appears again in digital form—distorted, flattened, yet strangely emotional. By wandering through these virtual thresholds, we not only glimpse other landscapes, but perhaps also reconnect with someone, somewhere, who once watched the same sun.
+
+This website has been created from the 2025 Convergence Design III led by Jeanyoon Choi at Korea National University of Arts.`,
         images: [
-            'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=600&fit=crop',
-            'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=800&h=600&fit=crop',
-            'https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=800&h=600&fit=crop',
+            '/images/안은재/1.png',
+            '/images/안은재/2.png',
+            '/images/안은재/3.png',
+            '/images/안은재/4.png',
+            '/images/안은재/5.png',
         ],
-        tags: ['Experimental', 'Interactive Design', 'Geometric', 'Perspective', 'Visual Art', 'Mathematics'],
-        shortDescription: '시각적 소실점을 주제로 한 실험적 인터랙션 프로젝트',
+        tags: ['Google Maps', 'Google Maps API', 'Next.js', 'Street View', 'Navigation'],
+        shortDescription: '같은 태양을 바라보며 존재하는 우리의 연결점을 구글 스트리트뷰를 통해 탐구하는 웹사이트',
     },
     {
         id: 7,
         title: 'MOMO',
         name: '이현지',
-        webLink: 'https://new-final-rolf.vercel.app/',
+        webLink: 'https://new-final-vert.vercel.app/',
         githubLink: 'https://github.com/hj0325/new-final.git',
         description: '어린아이가 자신의 감정을 이해하고 표현하는 방법을 놀이처럼 배우는 웹사이트입니다.',
         longDescription: 'MOMO는 어린아이가 자신의 감정을 이해하고 표현하는 방법을 놀이처럼 배우는 웹사이트이다. 무게를 잴 수 없는 감정을 아이 스스로 가상의 무게를 부여하고 저울로 재어보면서 생각하고 사고하는 방법을 배울 수 있으며, 동시에 자신의 감정을 다루는 방식을 배운다.',
@@ -134,7 +142,7 @@ export const PROJECTS = [
             '/images/이현지/2.png',
             '/images/이현지/3.png',
         ],
-        tags: ['Flutter', 'Emotion Design', 'Data Visualization', 'Mental Health', 'Social Platform', 'Psychology'],
+        tags: ['Next.js', 'Interactive Design', 'Emotion Design', 'Mental Health', 'Three.js'],
         shortDescription: '어린아이가 자신의 감정을 이해하고 표현하는 방법을 놀이처럼 배우는 웹사이트',
     },
     {
@@ -150,7 +158,7 @@ export const PROJECTS = [
             '/images/장예지/1.png',
             '/images/장예지/2.png',
         ],
-        tags: ['Three.js', 'WebGL', 'Future Design', 'Speculative Design', 'Art', 'Cultural Heritage'],
+        tags: ['Image Recognition', 'OpenAI API', 'Next.js', 'Speculative Design', 'Interactive Design'],
         shortDescription: '2190년, 미래의 큐레이터들이 우리 시대의 일상 물건들을 바라보는 박물관 아카이브 프로젝트',
     },
     {
@@ -168,7 +176,7 @@ export const PROJECTS = [
             '/images/조수연/3.png',
             '/images/조수연/4.png',
         ],
-        tags: ['Web Audio API', 'Sound Design', 'Memory', 'Interactive Audio', 'Experimental', 'Soundscape'],
+        tags: ['Three.js', 'Blender', 'Next.js', 'Baking', 'Interactive Design', 'Sound API'],
         shortDescription: '여행의 기억을 추억할 수 있는, 그 나라와 분위기에 어울리는 음악을 추천해주는 3D 사이트',
     }
 ]

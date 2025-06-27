@@ -53,7 +53,6 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const projectId = parseInt(params.id);
   const project = PROJECTS.find(p => p.id === projectId);
-  const projectIndex = PROJECTS.findIndex(p => p.id === projectId);
 
   if (!project) {
     return {
@@ -61,12 +60,11 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  const projectNumber = (projectIndex + 1).toString().padStart(2, '0');
-
+  // Pass project without pre-calculated number - will be calculated client-side
   return {
     props: {
       project,
-      projectNumber,
+      projectNumber: null, // Will be calculated client-side for session consistency
     },
     revalidate: 60,
   };
